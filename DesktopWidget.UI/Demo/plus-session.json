@@ -1,0 +1,368 @@
+{
+    "frames":  [
+                   {
+                       "elapsedMinutes":  0,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  100
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  100
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  11.326316,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  96
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  98.684211
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  22.652632,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  92
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  97.510941
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  33.978947,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  88
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  96.458225
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  45.305263,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  84
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  95.508391
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  56.631579,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  80
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  94.647059
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  67.957895,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  76
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  93.86241
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  79.284211,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  72
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  93.144640999999993
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  90.610526,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  68
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  92.485549
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  101.936842,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  64
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  91.878223
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  113.263158,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  60
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  91.316794
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  124.589474,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  56
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  90.796249
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  144.410526,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  49
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  89.971043
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  155.736842,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  45
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  89.542415
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  167.063158,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  41
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  89.141251
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  178.389474,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  37
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  88.764992
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  189.715789,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  33
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  88.411389
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  201.042105,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  29
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  88.078456
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  212.368421,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  25
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  87.764432
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  223.694737,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  21
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  87.46775
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  235.021053,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  17
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  87.187012
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  246.347368,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  13
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  86.920967
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  257.673684,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  9
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  86.668491
+                                       }
+                                   ]
+                   },
+                   {
+                       "elapsedMinutes":  269,
+                       "periods":  [
+                                       {
+                                           "minutes":  300,
+                                           "reset":  "2026-09-20T14:51:00+07:00",
+                                           "remaining":  5
+                                       },
+                                       {
+                                           "minutes":  10080,
+                                           "reset":  "2026-09-27T09:51:00+07:00",
+                                           "remaining":  86.428571
+                                       }
+                                   ]
+                   }
+               ],
+    "updateMilliseconds":  1000,
+    "retrievalMilliseconds":  200,
+    "startsAt":  "2026-09-20T09:51:00+07:00",
+    "planType":  "plus"
+}

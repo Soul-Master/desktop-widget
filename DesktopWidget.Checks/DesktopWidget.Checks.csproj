@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings></PropertyGroup>
+  <ItemGroup><Compile Include="../DesktopWidget.UI/UsageService.cs" Link="UsageService.cs"/><Compile Include="../DesktopWidget.UI/UsageModels.cs" Link="UsageModels.cs"/><Compile Include="../DesktopWidget.UI/UsageViewModel.cs" Link="UsageViewModel.cs"/></ItemGroup>
+  <ItemGroup><Compile Include="../DesktopWidget.UI/BudgetEstimator.cs" Link="BudgetEstimator.cs"/></ItemGroup>
+  <ItemGroup><Compile Include="../DesktopWidget.UI/BudgetHistory.cs" Link="BudgetHistory.cs"/></ItemGroup>
+  <ItemGroup><Compile Include="../DesktopWidget.UI/AppSettings.cs" Link="AppSettings.cs"/></ItemGroup>
+  <ItemGroup>
+    <Compile Include="../DesktopWidget.UI/DemoUsageService.cs" Link="DemoUsageService.cs"/>
+    <None Include="../DesktopWidget.UI/Demo/plus-session.json" Link="Demo/plus-session.json" CopyToOutputDirectory="PreserveNewest"/>
+  </ItemGroup>
+</Project>
+

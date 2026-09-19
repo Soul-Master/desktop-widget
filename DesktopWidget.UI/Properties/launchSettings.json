@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DesktopWidget.UI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "DesktopWidget.UI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
