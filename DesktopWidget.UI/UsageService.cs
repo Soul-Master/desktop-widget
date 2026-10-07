@@ -72,28 +72,14 @@ public sealed class UsageService
             await process.StandardInput.WriteLineAsync("{\"id\":1,\"method\":\"initialize\",\"params\":{\"clientInfo\":{\"name\":\"codex_usage_widget\",\"title\":\"Codex Usage Widget\",\"version\":\"1.0.0\"}}}");
             await ReceiveAsync(process, 1, timeout.Token);
             await process.StandardInput.WriteLineAsync("{\"method\":\"initialized\"}");
-            await process.StandardInput.WriteLineAsync("{\"id\":2,\"method\":\"account/rateLimits/read\"}");
-            var limits = await ReceiveAsync(process, 2, timeout.Token);
-            var plan = limits.PlanType;
-            string? accountKey = null;
+            var requestId = 1;
+            return await ReadVerifiedSnapshotAsync(async (method, token) =>
             {
-                try
-                {
-                    await process.StandardInput.WriteLineAsync("{\"id\":3,\"method\":\"account/read\",\"params\":{\"refreshToken\":false}}");
-                    var account = (await ReceiveAsync(process, 3, timeout.Token)).Account;
-                    if (account?.Type == "chatgpt")
-                    {
-                        plan = account.PlanType ?? plan;
-                        accountKey = BudgetHistory.GetAccountKey(account.Email);
-                    }
-                }
-                // A missing/unsupported account endpoint must not hide valid usage.
-                catch (InvalidOperationException) { }
-                catch (IOException) { }
-                catch (JsonException) { }
-                catch (OperationCanceledException) when (!cancellation.IsCancellationRequested) { }
-            }
-            return new(limits.ToPeriods(), plan, accountKey);
+                var id = ++requestId;
+                var parameters = method == "account/read" ? ",\"params\":{\"refreshToken\":false}" : string.Empty;
+                await process.StandardInput.WriteLineAsync($"{{\"id\":{id},\"method\":\"{method}\"{parameters}}}");
+                return await ReceiveAsync(process, id, token);
+            }, timeout.Token);
         }
         finally
         {
@@ -101,6 +87,39 @@ public sealed class UsageService
             await process.WaitForExitAsync(CancellationToken.None);
         }
     }
+    // Bind a usage observation only when identity is stable across its retrieval.
+    // A failed identity lookup may still display limits, but must not select history.
+    internal static async Task<UsageSnapshot> ReadVerifiedSnapshotAsync(
+        Func<string, CancellationToken, Task<AppServerResult>> request, CancellationToken cancellation)
+    {
+        var before = await ReadAccountAsync(request, cancellation);
+        var limits = await request("account/rateLimits/read", cancellation);
+        var after = await ReadAccountAsync(request, cancellation);
+        var verified = before.Available && after.Available;
+        if (verified && (before.Account?.Type != after.Account?.Type ||
+            BudgetHistory.GetAccountKey(before.Account?.Email) != BudgetHistory.GetAccountKey(after.Account?.Email) ||
+            before.Account?.PlanType != after.Account?.PlanType))
+            throw new InvalidOperationException("Codex account changed during refresh. Retrying automatically.");
+
+        var account = verified && after.Account?.Type == "chatgpt" ? after.Account : null;
+        return new(limits.ToPeriods(), limits.PlanType ?? account?.PlanType,
+            BudgetHistory.GetAccountKey(account?.Email));
+    }
+
+    private static async Task<(bool Available, ChatGptAccount? Account)> ReadAccountAsync(
+        Func<string, CancellationToken, Task<AppServerResult>> request, CancellationToken cancellation)
+    {
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
+        // Optional account metadata must leave time for the actual usage request.
+        timeout.CancelAfter(TimeSpan.FromSeconds(3));
+        try { return (true, (await request("account/read", timeout.Token)).Account); }
+        catch (InvalidOperationException) { }
+        catch (IOException) { }
+        catch (JsonException) { }
+        catch (OperationCanceledException) when (!cancellation.IsCancellationRequested) { }
+        return (false, null);
+    }
+
     private static async Task<AppServerResult> ReceiveAsync(Process process, int id, CancellationToken token)
     {
         while (await process.StandardOutput.ReadLineAsync(token) is { } line)

@@ -200,8 +200,8 @@ UsagePeriod[] ExclusionPeriods(double shortLeft, double longLeft, DateTimeOffset
 {
     new UsagePeriod(300, shortLeft, shortEnd), new UsagePeriod(10080, longLeft, longEnd)
 };
-var endShort = now.AddHours(5);
-var endLong = now.AddDays(7);
+var endShort = DateTimeOffset.FromUnixTimeSeconds(now.AddHours(5).ToUnixTimeSeconds());
+var endLong = DateTimeOffset.FromUnixTimeSeconds(now.AddDays(7).ToUnixTimeSeconds());
 exclusions.Observe(ExclusionPeriods(90, 90, endShort, endLong), now);
 Check(exclusions.Observe(ExclusionPeriods(100, 89, endShort, endLong), now).Count == 0,
     "Short-period increase cannot be treated as usage");
@@ -221,6 +221,71 @@ var accountA = BudgetHistory.GetAccountKey("first@example.com")!;
 var accountB = BudgetHistory.GetAccountKey("second@example.com")!;
 Check(accountA == BudgetHistory.GetAccountKey(" FIRST@example.com ") && accountA != accountB, "Stable distinct account keys with normalized emails");
 Check(BudgetHistory.GetAccountKey(null) is null && BudgetHistory.GetAccountKey(" ") is null, "Missing identity cannot select a shared history");
+// Script the app-server boundary to exercise switches without changing real sign-in.
+async Task<UsageSnapshot> ReadAccountSnapshot(string? firstEmail, string? lastEmail,
+    string? accountPlan = "plus", string? limitsPlan = "plus", int unavailableRead = 0, bool changedPlan = false,
+    CancellationToken cancellation = default)
+{
+    var accountReads = 0;
+    return await UsageService.ReadVerifiedSnapshotAsync((method, token) =>
+    {
+        token.ThrowIfCancellationRequested();
+        if (method == "account/rateLimits/read")
+            return Task.FromResult(new AppServerResult
+            {
+                RateLimits = new RateLimitBucket { PlanType = limitsPlan,
+                    Primary = new RateLimitWindow { UsedPercent = 30, WindowDurationMins = 300, ResetsAt = endShort.ToUnixTimeSeconds() },
+                    Secondary = new RateLimitWindow { UsedPercent = 30, WindowDurationMins = 10080, ResetsAt = endLong.ToUnixTimeSeconds() } }
+            });
+        accountReads++;
+        if (accountReads == unavailableRead)
+            throw new InvalidOperationException("Account metadata unavailable");
+        var email = accountReads == 1 ? firstEmail : lastEmail;
+        return Task.FromResult(new AppServerResult
+        {
+            Account = email is null ? null : new ChatGptAccount { Type = "chatgpt", Email = email, PlanType = changedPlan && accountReads > 1 ? "pro" : accountPlan }
+        });
+    }, cancellation);
+}
+var verifiedA = await ReadAccountSnapshot("first@example.com", " FIRST@example.com ");
+Check(verifiedA.AccountKey == accountA && verifiedA.Periods.Count == 2,
+    "Stable normalized identity binds fetched limits to the account");
+var verifiedB = await ReadAccountSnapshot("second@example.com", "second@example.com", "pro", "pro");
+Check(verifiedB.AccountKey == accountB && verifiedB.PlanType == "pro",
+    "Next refresh observes the switched account and plan without restart");
+Check((await ReadAccountSnapshot("first@example.com", "first@example.com", "pro", "plus")).PlanType == "plus",
+    "Usage bucket plan takes precedence over account metadata");
+Check((await ReadAccountSnapshot("first@example.com", "first@example.com", "pro", null)).PlanType == "pro",
+    "Verified account plan fills missing usage plan");
+foreach (var (first, last) in new (string?, string?)[]
+{
+    ("first@example.com", "second@example.com"), ("first@example.com", null), (null, "second@example.com")
+})
+{
+    var rejected = false;
+    try { await ReadAccountSnapshot(first, last); }
+    catch (InvalidOperationException ex) { rejected = ex.Message.Contains("account changed"); }
+    Check(rejected, "Switch or logout during retrieval rejects mixed-account observation");
+}
+var planChangeRejected = false;
+try { await ReadAccountSnapshot("first@example.com", "first@example.com", changedPlan: true); }
+catch (InvalidOperationException ex) { planChangeRejected = ex.Message.Contains("account changed"); }
+Check(planChangeRejected, "Plan change during retrieval rejects inconsistent calibration input");
+foreach (var unavailableRead in new[] { 1, 2 })
+{
+    var unscoped = await ReadAccountSnapshot("first@example.com", "second@example.com", unavailableRead: unavailableRead);
+    Check(unscoped.AccountKey is null && unscoped.Periods.Count == 2,
+        "Unavailable identity preserves valid usage without assigning account history");
+}
+using (var cancelled = new CancellationTokenSource())
+{
+    cancelled.Cancel();
+    var propagated = false;
+    try { await ReadAccountSnapshot("first@example.com", "first@example.com", cancellation: cancelled.Token); }
+    catch (OperationCanceledException) { propagated = true; }
+    Check(propagated, "Cancellation cannot return an unverified snapshot");
+}
+
 var accountDirectory = Path.Combine(Path.GetTempPath(), $"widget-accounts-{Guid.NewGuid():N}");
 try
 {
@@ -239,6 +304,24 @@ try
     accountsVm.UseAccountHistory(null, accountDirectory);
     accountsVm.SetPeriods(ExclusionPeriods(70, 70, endShort, endLong));
     Check(accountsVm.HistoryFilePath is null && accountsVm.Periods[1].Label == "1 week", "Unavailable identity clears previous account history");
+    var aHistory = File.ReadAllText(firstPath!);
+    var bPath = BudgetHistory.AccountPath(accountB, accountDirectory);
+    var bHistory = File.ReadAllText(bPath);
+    accountsVm.SetPeriods(ExclusionPeriods(50, 68, endShort, endLong));
+    Check(File.ReadAllText(firstPath!) == aHistory && File.ReadAllText(bPath) == bHistory,
+        "Unknown-account observations cannot modify either account history");
+    accountsVm.UseAccountHistory(verifiedB.AccountKey, accountDirectory);
+    accountsVm.PlanType = verifiedB.PlanType;
+    accountsVm.SetPeriods(verifiedB.Periods, now);
+    Check(accountsVm.HistoryFilePath == bPath && accountsVm.PlanLabel == "Pro" &&
+        accountsVm.Periods[0].Remaining == 70 && accountsVm.Periods[1].Label == "1 week",
+        "Live refresh switch updates plan and usage and resets calibration on changed plan");
+    accountsVm.UseAccountHistory(verifiedA.AccountKey, accountDirectory);
+    accountsVm.PlanType = verifiedA.PlanType;
+    accountsVm.SetPeriods(verifiedA.Periods, now);
+    Check(accountsVm.HistoryFilePath == firstPath && accountsVm.PlanLabel == "Plus" &&
+        accountsVm.Periods[1].Label == "1 week (~10.5x)",
+        "Switching back after an unknown identity restores the correct account budget");
 }
 finally
 {
