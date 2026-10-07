@@ -5,102 +5,105 @@
     <Window.SystemBackdrop>
         <DesktopAcrylicBackdrop />
     </Window.SystemBackdrop>
-    <Grid x:Name="RootLayout" Padding="20,16,20,14" RowSpacing="14">
+    <Viewbox x:Name="ScalingView" Stretch="Uniform" StretchDirection="Both"
+             HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid x:Name="RootLayout" Width="364" Padding="20,16,20,14" RowSpacing="14">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid x:Name="Header" ColumnSpacing="6" Margin="-20,-16,-20,0" Padding="14,16,14,0"
-              Background="Transparent">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="1" ColumnSpacing="6" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid x:Name="Header" ColumnSpacing="6" Margin="-20,-16,-20,0" Padding="14,16,14,0"
+                  Background="Transparent">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center" FontSize="14" TextTrimming="CharacterEllipsis">
-                    <Run Text="Codex" FontWeight="SemiBold"/>
-                </TextBlock>
-                <Border Grid.Column="1" Padding="6,2" CornerRadius="4" MaxWidth="90"
-                        Background="{ThemeResource AccentFillColorDefaultBrush}"
-                        Visibility="{x:Bind ViewModel.HasPlan, Mode=OneWay}"
-                        Opacity="{x:Bind ViewModel.PeriodsOpacity, Mode=OneWay}">
-                    <TextBlock Text="{x:Bind ViewModel.PlanLabel, Mode=OneWay}" FontSize="10" FontWeight="SemiBold"
-                            Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis"
-                            AutomationProperties.Name="{x:Bind ViewModel.PlanDescription, Mode=OneWay}"/>
-                </Border>
-                <TextBlock Grid.Column="2" VerticalAlignment="Center" FontSize="14" TextTrimming="CharacterEllipsis">
-                    <Run Text=" - Usage Limits" FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
-                </TextBlock>
-            </Grid>
-            <Grid x:Name="RefreshArea" Grid.Column="2" Width="28" Height="28">
-                <Button Click="RefreshClick" Visibility="{x:Bind ViewModel.CanRefresh, Mode=OneWay}" Padding="6" Background="Transparent" BorderThickness="0" ToolTipService.ToolTip="Refresh limits" AutomationProperties.Name="Refresh limits">
-                    <FontIcon Glyph="&#xE72C;" FontSize="12"/>
+                <Grid Grid.Column="1" ColumnSpacing="6" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock VerticalAlignment="Center" FontSize="14" TextTrimming="CharacterEllipsis">
+                        <Run Text="Codex" FontWeight="SemiBold"/>
+                    </TextBlock>
+                    <Border Grid.Column="1" Padding="6,2" CornerRadius="4" MaxWidth="90"
+                            Background="{ThemeResource AccentFillColorDefaultBrush}"
+                            Visibility="{x:Bind ViewModel.HasPlan, Mode=OneWay}"
+                            Opacity="{x:Bind ViewModel.PeriodsOpacity, Mode=OneWay}">
+                        <TextBlock Text="{x:Bind ViewModel.PlanLabel, Mode=OneWay}" FontSize="10" FontWeight="SemiBold"
+                                Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis"
+                                AutomationProperties.Name="{x:Bind ViewModel.PlanDescription, Mode=OneWay}"/>
+                    </Border>
+                    <TextBlock Grid.Column="2" VerticalAlignment="Center" FontSize="14" TextTrimming="CharacterEllipsis">
+                        <Run Text=" - Usage Limits" FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                    </TextBlock>
+                </Grid>
+                <Grid x:Name="RefreshArea" Grid.Column="2" Width="28" Height="28">
+                    <Button Click="RefreshClick" Visibility="{x:Bind ViewModel.CanRefresh, Mode=OneWay}" Padding="6" Background="Transparent" BorderThickness="0" ToolTipService.ToolTip="Refresh limits" AutomationProperties.Name="Refresh limits">
+                        <FontIcon Glyph="&#xE72C;" FontSize="12"/>
+                    </Button>
+                    <ProgressRing Width="16" Height="16" IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" ToolTipService.ToolTip="Updating limits" AutomationProperties.Name="Updating limits"/>
+                </Grid>
+                <Button x:Name="SettingsButton" Grid.Column="3" Padding="6" Background="Transparent" BorderThickness="0" ToolTipService.ToolTip="Settings" AutomationProperties.Name="Settings">
+                    <FontIcon Glyph="&#xE713;" FontSize="12"/>
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutSubItem x:Name="UpdateIntervalMenu" Text="Update Interval"/>
+                            <MenuFlyoutSubItem x:Name="TintOpacityMenu" Text="Acrylic Tint Opacity"/>
+                            <MenuFlyoutSeparator/>
+                            <MenuFlyoutItem Text="{x:Bind ViewModel.Status, Mode=OneWay}" IsEnabled="False"/>
+                        </MenuFlyout>
+                    </Button.Flyout>
                 </Button>
-                <ProgressRing Width="16" Height="16" IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" ToolTipService.ToolTip="Updating limits" AutomationProperties.Name="Updating limits"/>
+                <Button x:Name="HideButton" Grid.Column="4" Click="HideClick" Padding="6" Background="Transparent" BorderThickness="0" ToolTipService.ToolTip="Hide to tray" AutomationProperties.Name="Hide to tray">
+                    <FontIcon Glyph="&#xE711;" FontSize="12"/>
+                </Button>
             </Grid>
-            <Button x:Name="SettingsButton" Grid.Column="3" Padding="6" Background="Transparent" BorderThickness="0" ToolTipService.ToolTip="Settings" AutomationProperties.Name="Settings">
-                <FontIcon Glyph="&#xE713;" FontSize="12"/>
-                <Button.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyoutSubItem x:Name="UpdateIntervalMenu" Text="Update Interval"/>
-                        <MenuFlyoutSubItem x:Name="TintOpacityMenu" Text="Acrylic Tint Opacity"/>
-                        <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem Text="{x:Bind ViewModel.Status, Mode=OneWay}" IsEnabled="False"/>
-                    </MenuFlyout>
-                </Button.Flyout>
-            </Button>
-            <Button x:Name="HideButton" Grid.Column="4" Click="HideClick" Padding="6" Background="Transparent" BorderThickness="0" ToolTipService.ToolTip="Hide to tray" AutomationProperties.Name="Hide to tray">
-                <FontIcon Glyph="&#xE711;" FontSize="12"/>
-            </Button>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Spacing="16">
+                    <TextBlock Text="{x:Bind ViewModel.Message, Mode=OneWay}" Visibility="{x:Bind ViewModel.HasMessage, Mode=OneWay}" TextWrapping="Wrap" FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.Periods}" Opacity="{x:Bind ViewModel.PeriodsOpacity, Mode=OneWay}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Spacing="18"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="local:UsagePeriodViewModel">
+                                <StackPanel Spacing="7">
+                                    <Grid ColumnSpacing="8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{x:Bind Label, Mode=OneWay}" TextTrimming="CharacterEllipsis" FontSize="13" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Column="1" Text="{x:Bind RemainingText, Mode=OneWay}" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                    <Grid>
+                                        <ProgressBar Minimum="0" Maximum="100" local:AnimatedProgress.Target="{x:Bind Remaining, Mode=OneWay}" Height="4" AutomationProperties.Name="{x:Bind AccessibleLabel, Mode=OneWay}" Visibility="{x:Bind IsNormal, Mode=OneWay}"/>
+                                        <ProgressBar Minimum="0" Maximum="100" local:AnimatedProgress.Target="{x:Bind Remaining, Mode=OneWay}" Height="4" Foreground="Coral" AutomationProperties.Name="{x:Bind AccessibleLabel, Mode=OneWay}" Visibility="{x:Bind IsLow, Mode=OneWay}"/>
+                                    </Grid>
+                                    <Grid ColumnSpacing="8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{x:Bind ResetText, Mode=OneWay}" ToolTipService.ToolTip="{x:Bind ResetText, Mode=OneWay}" FontSize="11" Foreground="{ThemeResource TextFillColorSecondaryBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Grid.Column="1" Text="{x:Bind Countdown, Mode=OneWay}" FontSize="11" Foreground="{ThemeResource TextFillColorSecondaryBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
-            <StackPanel Spacing="16">
-                <TextBlock Text="{x:Bind ViewModel.Message, Mode=OneWay}" Visibility="{x:Bind ViewModel.HasMessage, Mode=OneWay}" TextWrapping="Wrap" FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
-                <ItemsControl ItemsSource="{x:Bind ViewModel.Periods}" Opacity="{x:Bind ViewModel.PeriodsOpacity, Mode=OneWay}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Spacing="18"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="local:UsagePeriodViewModel">
-                            <StackPanel Spacing="7">
-                                <Grid ColumnSpacing="8">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Bind Label, Mode=OneWay}" TextTrimming="CharacterEllipsis" FontSize="13" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="1" Text="{x:Bind RemainingText, Mode=OneWay}" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Right"/>
-                                </Grid>
-                                <Grid>
-                                    <ProgressBar Minimum="0" Maximum="100" local:AnimatedProgress.Target="{x:Bind Remaining, Mode=OneWay}" Height="4" AutomationProperties.Name="{x:Bind AccessibleLabel, Mode=OneWay}" Visibility="{x:Bind IsNormal, Mode=OneWay}"/>
-                                    <ProgressBar Minimum="0" Maximum="100" local:AnimatedProgress.Target="{x:Bind Remaining, Mode=OneWay}" Height="4" Foreground="Coral" AutomationProperties.Name="{x:Bind AccessibleLabel, Mode=OneWay}" Visibility="{x:Bind IsLow, Mode=OneWay}"/>
-                                </Grid>
-                                <Grid ColumnSpacing="8">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Bind ResetText, Mode=OneWay}" ToolTipService.ToolTip="{x:Bind ResetText, Mode=OneWay}" FontSize="11" Foreground="{ThemeResource TextFillColorSecondaryBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                                    <TextBlock Grid.Column="1" Text="{x:Bind Countdown, Mode=OneWay}" FontSize="11" Foreground="{ThemeResource TextFillColorSecondaryBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                </Grid>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-        </ScrollViewer>
-    </Grid>
+    </Viewbox>
 </Window>
 
 

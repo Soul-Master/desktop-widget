@@ -311,6 +311,21 @@ Check(WindowPlacement.Fit(int.MaxValue, int.MinValue, 364, 250, workArea, 12) ==
 Check(WindowPlacement.Fit(500, 500, 364, 250, new WindowPlacement(50, 100, 300, 200), 12)
     == new WindowPlacement(50, 100, 300, 200), "Small work areas reduce window size and margin without clipping");
 
+foreach (var dpiScale in new[] { 2.0, 1.5, 2.0, 1.25, 1.5, 2.0 })
+{
+    var clientSizing = WindowClientSizing.Calculate(364, dpiScale, 1904, 1000);
+    var physicalHeight = clientSizing.ClientHeight(250);
+    Check(clientSizing.ClientWidth / dpiScale == 364 && physicalHeight >= 250 * dpiScale && physicalHeight < 250 * dpiScale + 1,
+        $"Whole client area fits a 364 x 250 logical canvas at {dpiScale * 100}% with less than one pixel of rounding");
+}
+var constrainedSizing = WindowClientSizing.Calculate(364, 2, 300, 200);
+Check(constrainedSizing.ClientWidth == 300 && Math.Abs(constrainedSizing.ClientWidth / constrainedSizing.Scale - 364) < 0.001,
+    "Narrow work area scales the whole canvas instead of shrinking element layout width");
+Check(constrainedSizing.ClientHeight(constrainedSizing.MaxLogicalHeight) == 200 && constrainedSizing.ClientHeight(1000) == 200,
+    "Height constraints keep scrolling content inside the usable client area");
+var fractionalSizing = WindowClientSizing.Calculate(364, 1.5, 1920, 1000);
+Check(fractionalSizing.ClientHeight(250.25) == 376, "Fractional logical height rounds outward to avoid clipping");
+
 var demo = new DemoUsageService(Path.Combine(AppContext.BaseDirectory, "Demo", "plus-session.json"));
 Check(demo.Configuration.UpdateMilliseconds == 1000 && demo.Configuration.Frames.Length == 24 && demo.Configuration.RetrievalMilliseconds == 200, "Demo timing configuration");
 var demoWatch = System.Diagnostics.Stopwatch.StartNew();

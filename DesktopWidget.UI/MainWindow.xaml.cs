@@ -38,6 +38,8 @@ public sealed partial class MainWindow : Window
     private RectInt32[] buttonRegions = Array.Empty<RectInt32>();
     private XamlRoot? xamlRoot;
     private double layoutScale;
+    private double windowScale;
+    private bool positioning;
     private bool positionQueued;
 
     private readonly IntPtr hwnd;
@@ -114,12 +116,14 @@ public sealed partial class MainWindow : Window
         DwmSetWindowAttribute(hwnd, 33, ref corner, sizeof(int));
         tray = new TrayIndicator(() => DispatcherQueue.TryEnqueue(Toggle), () => DispatcherQueue.TryEnqueue(async () => await RefreshAsync()), () => DispatcherQueue.TryEnqueue(Exit));
         AppWindow.Closing += (_, e) => { if (!exiting) { e.Cancel = true; AppWindow.Hide(); } };
+        AppWindow.Changed += AppWindowChanged;
         Closed += (_, _) =>
         {
             lifetime.Cancel();
             clock.Stop();
             tray.Dispose();
             RootLayout.Loaded -= RootLayoutLoaded;
+            AppWindow.Changed -= AppWindowChanged;
             if (xamlRoot is not null) xamlRoot.Changed -= XamlRootChanged;
             nonClientInput.EnteringMoveSize -= NativeMoveStarting;
             nonClientInput.ExitedMoveSize -= NativeMoveEnded;
@@ -154,6 +158,12 @@ public sealed partial class MainWindow : Window
         // Changed also fires for our own resize; only scale changes need remeasurement.
         if (sender.RasterizationScale != layoutScale) QueuePosition();
     }
+    private void AppWindowChanged(AppWindow sender, AppWindowChangedEventArgs args)
+    {
+        // Moving between monitors changes native DPI before XAML necessarily reports it.
+        if (!positioning && (args.DidPositionChange || args.DidSizeChange)
+            && GetDpiForWindow(hwnd) / 96.0 != windowScale) QueuePosition();
+    }
     private void QueuePosition()
     {
         if (exiting || positionQueued) return;
@@ -173,31 +183,49 @@ public sealed partial class MainWindow : Window
     }
     private void Position()
     {
-        // The native move loop pumps timer/refresh callbacks; do not fight the drag.
-        if (dragging) return;
-        var nativeScale = GetDpiForWindow(hwnd) / 96.0;
-        var scale = xamlRoot?.RasterizationScale ?? nativeScale;
-        // HWND DPI can change before XAML catches up. XamlRoot.Changed will retry.
-        if (Math.Abs(scale - nativeScale) > 0.001) return;
-        if (scale != layoutScale)
+        if (exiting || positioning) return;
+        var dpi = GetDpiForWindow(hwnd);
+        var nativeScale = (dpi == 0 ? 96 : dpi) / 96.0;
+        // Resize for a DPI transition even inside the native move loop. Leave its position alone.
+        if (dragging && nativeScale == windowScale) return;
+        positioning = true;
+        try
         {
-            layoutScale = scale;
-            InvalidateLayout(RootLayout);
+            windowScale = nativeScale;
+            var area = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Nearest).WorkArea;
+            var chromeWidth = Math.Max(0, AppWindow.Size.Width - AppWindow.ClientSize.Width);
+            var chromeHeight = Math.Max(0, AppWindow.Size.Height - AppWindow.ClientSize.Height);
+            var gap = (int)Math.Ceiling(12 * nativeScale);
+            var sizing = WindowClientSizing.Calculate(RootLayout.Width, nativeScale,
+                area.Width - chromeWidth, area.Height - chromeHeight - 2 * gap);
+
+            // Elements always measure in the same logical canvas, regardless of HWND/XAML DPI timing.
+            RootLayout.MaxHeight = sizing.MaxLogicalHeight;
+            var scale = xamlRoot?.RasterizationScale ?? nativeScale;
+            if (scale != layoutScale)
+            {
+                layoutScale = scale;
+                InvalidateLayout(RootLayout);
+            }
+            RootLayout.Measure(new Windows.Foundation.Size(RootLayout.Width, double.PositiveInfinity));
+            var clientSize = new SizeInt32(sizing.ClientWidth, sizing.ClientHeight(RootLayout.DesiredSize.Height));
+            // Resize the usable area, not the outer rectangle (which includes non-client chrome).
+            if (AppWindow.ClientSize.Width != clientSize.Width || AppWindow.ClientSize.Height != clientSize.Height)
+                AppWindow.ResizeClient(clientSize);
+
+            if (dragging) return;
+            var placement = WindowPlacement.Fit(windowPosition?.X, windowPosition?.Y,
+                AppWindow.Size.Width, AppWindow.Size.Height,
+                new WindowPlacement(area.X, area.Y, area.Width, area.Height), gap);
+            if (AppWindow.Position.X != placement.X || AppWindow.Position.Y != placement.Y)
+                AppWindow.Move(new PointInt32(placement.X, placement.Y));
+            if (windowPosition.HasValue)
+            {
+                windowPosition = AppWindow.Position;
+                RememberPosition();
+            }
         }
-        var area = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Nearest).WorkArea;
-        var width = Math.Min((int)Math.Ceiling(364 * scale), area.Width);
-        var gap = (int)(12 * scale);
-        RootLayout.Measure(new Windows.Foundation.Size(width / scale, double.PositiveInfinity));
-        var height = Math.Min((int)Math.Ceiling(RootLayout.DesiredSize.Height * scale), Math.Max(1, area.Height - 2 * gap));
-        var placement = WindowPlacement.Fit(windowPosition?.X, windowPosition?.Y, width, height,
-            new WindowPlacement(area.X, area.Y, area.Width, area.Height), gap);
-        var rect = new RectInt32(placement.X, placement.Y, placement.Width, placement.Height);
-        if (AppWindow.Position.X != rect.X || AppWindow.Position.Y != rect.Y || AppWindow.Size.Width != rect.Width || AppWindow.Size.Height != rect.Height) AppWindow.MoveAndResize(rect);
-        if (windowPosition.HasValue)
-        {
-            windowPosition = AppWindow.Position;
-            RememberPosition();
-        }
+        finally { positioning = false; }
     }
     private void HeaderLayoutUpdated(object? sender, object e) => UpdateNativeDragRegions();
     private void UpdateNativeDragRegions()
@@ -206,7 +234,8 @@ public sealed partial class MainWindow : Window
         var scale = Header.XamlRoot.RasterizationScale;
         RectInt32 Bounds(FrameworkElement element)
         {
-            var bounds = element.TransformToVisual(RootLayout).TransformBounds(
+            // Include the Viewbox transform before converting to physical client coordinates.
+            var bounds = element.TransformToVisual(ScalingView).TransformBounds(
                 new Windows.Foundation.Rect(0, 0, element.ActualWidth, element.ActualHeight));
             // Native regions use physical client pixels; round outward and clip to the window.
             var left = Math.Clamp((int)Math.Floor(bounds.Left * scale), 0, AppWindow.ClientSize.Width);
