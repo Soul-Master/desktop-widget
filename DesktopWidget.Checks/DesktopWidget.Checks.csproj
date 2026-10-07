@@ -4,6 +4,7 @@
   <ItemGroup><Compile Include="../DesktopWidget.UI/BudgetEstimator.cs" Link="BudgetEstimator.cs"/></ItemGroup>
   <ItemGroup><Compile Include="../DesktopWidget.UI/BudgetHistory.cs" Link="BudgetHistory.cs"/></ItemGroup>
   <ItemGroup><Compile Include="../DesktopWidget.UI/AppSettings.cs" Link="AppSettings.cs"/></ItemGroup>
+  <ItemGroup><Compile Include="../DesktopWidget.UI/WindowPlacement.cs" Link="WindowPlacement.cs"/></ItemGroup>
   <ItemGroup>
     <Compile Include="../DesktopWidget.UI/DemoUsageService.cs" Link="DemoUsageService.cs"/>
     <None Include="../DesktopWidget.UI/Demo/plus-session.json" Link="Demo/plus-session.json" CopyToOutputDirectory="PreserveNewest"/>

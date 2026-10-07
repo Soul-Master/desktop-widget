@@ -258,21 +258,31 @@ try
     Check(File.Exists(settingsPath) && settings.RefreshIntervalSeconds == 30 && settings.TintOpacityPercent == -1, "Missing settings created with defaults");
     settings.RefreshIntervalSeconds = 120;
     settings.TintOpacityPercent = 40;
+    settings.WindowX = -1536;
+    settings.WindowY = 120;
     settings.Save(settingsPath);
     var restored = AppSettings.Load(settingsPath);
     Check(restored.RefreshIntervalSeconds == 120 && restored.TintOpacityPercent == 40, "Settings survive reload");
+    Check(restored.WindowX == -1536 && restored.WindowY == 120, "Window position survives reload, including negative monitor coordinates");
     var originalSettings = File.ReadAllBytes(settingsPath);
     var originalWriteTime = File.GetLastWriteTimeUtc(settingsPath);
     readOnlySettings = AppSettings.Load(settingsPath, readOnly: true);
     Check(readOnlySettings.TintOpacityPercent == 40, "Demo reads existing preferences");
     readOnlySettings.TintOpacityPercent = 90;
     readOnlySettings.RefreshIntervalSeconds = 15;
+    readOnlySettings.WindowX = 500;
+    readOnlySettings.WindowY = 300;
     readOnlySettings.Save(settingsPath);
     Check(File.ReadAllBytes(settingsPath).SequenceEqual(originalSettings) && File.GetLastWriteTimeUtc(settingsPath) == originalWriteTime,
         "Demo preference changes preserve settings contents and modification time");
     File.WriteAllText(settingsPath, """{"refreshIntervalSeconds":0,"tintOpacityPercent":33}""");
     restored = AppSettings.Load(settingsPath);
     Check(restored.RefreshIntervalSeconds == 30 && restored.TintOpacityPercent == -1, "Unsupported settings fall back to defaults");
+    Check(restored.WindowX is null && restored.WindowY is null, "Existing settings without a position keep default placement");
+    File.WriteAllText(settingsPath, """{"refreshIntervalSeconds":60,"windowX":500}""");
+    restored = AppSettings.Load(settingsPath);
+    Check(restored.RefreshIntervalSeconds == 60 && restored.WindowX is null && restored.WindowY is null,
+        "Incomplete window position is ignored without losing other preferences");
     File.WriteAllText(settingsPath, "broken json");
     AppSettings.Load(settingsPath, readOnly: true).Save(settingsPath);
     Check(AppSettings.Load(settingsPath).RefreshIntervalSeconds == 30 && File.ReadAllText(settingsPath) == "broken json", "Malformed settings do not crash or overwrite original");
@@ -282,6 +292,24 @@ finally
     File.Delete(settingsPath);
     Directory.Delete(settingsDirectory);
 }
+
+var workArea = new WindowPlacement(0, 0, 1920, 1040);
+Check(WindowPlacement.Fit(null, null, 364, 250, workArea, 12) == new WindowPlacement(1544, 778, 364, 250),
+    "First launch retains bottom-right placement above the taskbar");
+Check(WindowPlacement.Fit(300, 200, 364, 250, workArea, 12) == new WindowPlacement(300, 200, 364, 250),
+    "Saved placement remains fixed during ticks and reopening");
+Check(WindowPlacement.Fit(300, 200, 546, 400, workArea, 18) == new WindowPlacement(300, 200, 546, 400),
+    "Content or DPI resizing preserves the chosen position when it still fits");
+Check(WindowPlacement.Fit(1544, 778, 364, 400, workArea, 12) == new WindowPlacement(1544, 628, 364, 400),
+    "Growing content is kept inside the work area");
+Check(WindowPlacement.Fit(-5000, 3000, 364, 250, workArea, 12) == new WindowPlacement(12, 778, 364, 250),
+    "Disconnected monitor or changed work area brings saved placement on-screen");
+Check(WindowPlacement.Fit(-1600, -700, 364, 250, new WindowPlacement(-1920, -1080, 1920, 1040), 12)
+    == new WindowPlacement(-1600, -700, 364, 250), "Monitors left of or above primary support negative coordinates");
+Check(WindowPlacement.Fit(int.MaxValue, int.MinValue, 364, 250, workArea, 12) == new WindowPlacement(1544, 12, 364, 250),
+    "Extreme saved coordinates are safely clamped");
+Check(WindowPlacement.Fit(500, 500, 364, 250, new WindowPlacement(50, 100, 300, 200), 12)
+    == new WindowPlacement(50, 100, 300, 200), "Small work areas reduce window size and margin without clipping");
 
 var demo = new DemoUsageService(Path.Combine(AppContext.BaseDirectory, "Demo", "plus-session.json"));
 Check(demo.Configuration.UpdateMilliseconds == 1000 && demo.Configuration.Frames.Length == 24 && demo.Configuration.RetrievalMilliseconds == 200, "Demo timing configuration");

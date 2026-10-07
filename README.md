@@ -49,6 +49,7 @@ API service-account keys do not supply ChatGPT subscription quota data. Do not p
 - Refreshes every 30 seconds by default (adjustable from the status button), with a 25-second timeout. Countdowns update every second. Reset timestamps use local time.
 - Failed refreshes dim the last values and label them offline. The tray displays a dash when unavailable or when its reset timestamp has passed. It never assumes a reset means 100% remaining.
 - Click the tray icon to show/hide. Right-click for refresh or exit. The card's close button hides it to the tray; monitoring continues.
+- Drag the header to move the card using Windows' native caption dragging; refresh, settings, and hide controls remain interactive passthrough areas. Drag regions follow the header layout and display scaling. The position is saved after dragging and restored when shown again or restarted. Content resizing preserves the chosen position where it fits. Monitor DPI changes wait for XAML's rendering scale before remeasuring text and resizing the card. Display/work-area changes adjust it to keep the card on-screen; the first launch uses the bottom-right corner above the taskbar.
 - Acrylic uses the system fallback when Windows disables transparency. Notification dimensions vary by Windows version and display settings; this is a notification-inspired persistent window, not a Windows toast. It can overlap actual notifications. Exclusive fullscreen apps and secure desktop may appear above it.
 - Settings → **Acrylic Tint Opacity** offers **System default** or **0–100%** in 10% steps, applied immediately and saved across restarts. This adjusts the acrylic color tint, not the opacity of text or the entire window; 0% still includes acrylic blur/luminosity. Windows transparency and accessibility settings can override the effect.
 - Windows may initially place the tray icon in the overflow area; pin it using Windows taskbar settings.
@@ -60,7 +61,9 @@ dotnet run --project DesktopWidget.Checks
 dotnet run --project DesktopWidget.Checks -- --live
 ```
 
-The second command requires a signed-in Codex CLI and network connectivity; it reads account limits without starting a model turn. Checks cover sorting, general-bucket selection, nullable fields, remaining percentage calculation, clamping, and countdown expiry.
+The second command requires a signed-in Codex CLI and network connectivity; it reads account limits without starting a model turn. Checks cover sorting, general-bucket selection, nullable fields, remaining percentage calculation, clamping, countdown expiry, budget estimation/history, settings, saved window positions and work-area bounds, demo playback.
+
+For DPI layout verification, launch with `--demo` to use local sample data. Drag the card between monitors set to 200% and 150%, then back, including repeated crossings and monitors left of the primary display. Also change the current monitor's scaling while the card is visible and while hidden to the tray, then reopen it. After each transition, check that the title, percentage, reset time, and countdown stay within their rows and the card remains on-screen. Verify a wrapped connection message and a long plan badge as well; constrained work areas may still require scrolling or ellipsis. The console checks do not exercise WinUI rendering or monitor DPI events.
 
 ## Structure
 
@@ -76,9 +79,9 @@ The append-only JSON Lines file contains version, observedAt (UTC), planType, pe
 
 ### App settings
 
-The app creates `%LOCALAPPDATA%\DesktopWidget\settings.json` on startup with `refreshIntervalSeconds: 30` and `tintOpacityPercent: -1` (system default). Changes from the interval and tint menus are saved automatically. Manual file edits take effect after restarting the app. Supported intervals are 15, 30, 60, 120, 300, and 600 seconds; tint supports -1 or 0–100 in steps of 10. Invalid values fall back to defaults. Unreadable or malformed files do not prevent startup; storage failures are handled without diagnostic output.
+The app creates `%LOCALAPPDATA%\DesktopWidget\settings.json` on startup with `refreshIntervalSeconds: 30` and `tintOpacityPercent: -1` (system default). Changes from the interval and tint menus are saved automatically. `windowX` and `windowY` store the window's top-left screen coordinates in physical pixels after dragging, including negative coordinates for other monitors; both are null until a position is chosen. Existing settings without coordinates retain the default placement. Manual file edits take effect after restarting the app. Supported intervals are 15, 30, 60, 120, 300, and 600 seconds; tint supports -1 or 0–100 in steps of 10. Invalid values fall back to defaults. Unreadable or malformed files do not prevent startup; storage failures are handled without diagnostic output, so position changes may only last for the current session if saving fails.
 
 ### UI demo
 
 Launch the built app with `DesktopWidget.exe --demo` to replay the bundled `Demo/plus-session.json`, or `DesktopWidget.exe --demo "C:\path\scenario.json"` for another fixture. Launch without the flag for live usage. Exit the existing widget first to avoid overlapping windows.
-Demo sessions read existing settings without creating or modifying settings files. Tint and interval changes are session-only. Usage history remains in memory; no history/log files are created or changed.
+Demo sessions read existing settings without creating or modifying settings files. Tint, interval, and position changes are session-only. Usage history remains in memory; no history/log files are created or changed.

@@ -10,6 +10,8 @@ public sealed class AppSettings
     private bool readOnly;
     public int RefreshIntervalSeconds { get; set; } = 30;
     public int TintOpacityPercent { get; set; } = -1;
+    public int? WindowX { get; set; }
+    public int? WindowY { get; set; }
 
     public static string DefaultPath => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DesktopWidget", "settings.json");
@@ -32,6 +34,8 @@ public sealed class AppSettings
             if (settings.TintOpacityPercent != -1 &&
                 (settings.TintOpacityPercent < 0 || settings.TintOpacityPercent > 100 || settings.TintOpacityPercent % 10 != 0))
                 settings.TintOpacityPercent = -1;
+            if (settings.WindowX.HasValue != settings.WindowY.HasValue)
+                settings.WindowX = settings.WindowY = null;
             return settings;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)

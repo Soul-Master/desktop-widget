@@ -1,3 +1,4 @@
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -29,12 +30,23 @@ public sealed partial class MainWindow : Window
     private int lastExpiredMask = -1;
     private int tintOpacityPercent = -1;
     private readonly AppSettings settings;
+    private PointInt32? windowPosition;
+    private volatile bool dragging;
+    private PointInt32 dragStartPosition;
+    private readonly InputNonClientPointerSource nonClientInput;
+    private RectInt32[] captionRegions = Array.Empty<RectInt32>();
+    private RectInt32[] buttonRegions = Array.Empty<RectInt32>();
+    private XamlRoot? xamlRoot;
+    private double layoutScale;
+    private bool positionQueued;
 
     private readonly IntPtr hwnd;
     public MainWindow(DemoUsageService? demo = null)
     {
         this.demo = demo;
         settings = AppSettings.Load(readOnly: demo is not null);
+        if (settings.WindowX is int x && settings.WindowY is int y)
+            windowPosition = new PointInt32(x, y);
         InitializeComponent();
         tintOpacityPercent = settings.TintOpacityPercent;
         ViewModel.SelectedInterval = ViewModel.Intervals.First(interval => interval.Seconds == settings.RefreshIntervalSeconds);
@@ -82,6 +94,8 @@ public sealed partial class MainWindow : Window
             }
         };
         hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+        ExtendsContentIntoTitleBar = true;
+        RootLayout.Loaded += RootLayoutLoaded;
         var presenter = (OverlappedPresenter)AppWindow.Presenter;
         presenter.SetBorderAndTitleBar(false, false);
         presenter.IsResizable = false;
@@ -89,11 +103,28 @@ public sealed partial class MainWindow : Window
         presenter.IsMinimizable = false;
         presenter.IsAlwaysOnTop = true;
         AppWindow.IsShownInSwitchers = false;
+        nonClientInput = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
+        nonClientInput.EnteringMoveSize += NativeMoveStarting;
+        nonClientInput.ExitedMoveSize += NativeMoveEnded;
+        // Geometry is valid only after layout; cache regions to avoid resetting them on every tick.
+        Header.LayoutUpdated += HeaderLayoutUpdated;
+        // Move before measuring so a restored monitor's DPI determines the size.
+        if (windowPosition is PointInt32 savedPosition) AppWindow.Move(savedPosition);
         var corner = 2;
         DwmSetWindowAttribute(hwnd, 33, ref corner, sizeof(int));
         tray = new TrayIndicator(() => DispatcherQueue.TryEnqueue(Toggle), () => DispatcherQueue.TryEnqueue(async () => await RefreshAsync()), () => DispatcherQueue.TryEnqueue(Exit));
         AppWindow.Closing += (_, e) => { if (!exiting) { e.Cancel = true; AppWindow.Hide(); } };
-        Closed += (_, _) => { lifetime.Cancel(); clock.Stop(); tray.Dispose(); };
+        Closed += (_, _) =>
+        {
+            lifetime.Cancel();
+            clock.Stop();
+            tray.Dispose();
+            RootLayout.Loaded -= RootLayoutLoaded;
+            if (xamlRoot is not null) xamlRoot.Changed -= XamlRootChanged;
+            nonClientInput.EnteringMoveSize -= NativeMoveStarting;
+            nonClientInput.ExitedMoveSize -= NativeMoveEnded;
+            Header.LayoutUpdated -= HeaderLayoutUpdated;
+        };
         clock.Tick += async (_, _) =>
         {
             if (exiting) return;
@@ -109,16 +140,118 @@ public sealed partial class MainWindow : Window
         clock.Start();
         _ = RefreshAsync();
     }
+    private void RootLayoutLoaded(object sender, RoutedEventArgs e)
+    {
+        if (xamlRoot is not null) xamlRoot.Changed -= XamlRootChanged;
+        xamlRoot = RootLayout.XamlRoot;
+        if (xamlRoot is not null) xamlRoot.Changed += XamlRootChanged;
+        // The first measurement ran before XAML was attached to a display.
+        layoutScale = 0;
+        QueuePosition();
+    }
+    private void XamlRootChanged(XamlRoot sender, XamlRootChangedEventArgs args)
+    {
+        // Changed also fires for our own resize; only scale changes need remeasurement.
+        if (sender.RasterizationScale != layoutScale) QueuePosition();
+    }
+    private void QueuePosition()
+    {
+        if (exiting || positionQueued) return;
+        positionQueued = DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        {
+            positionQueued = false;
+            if (!exiting) Position();
+        });
+    }
+    private static void InvalidateLayout(UIElement element)
+    {
+        // Dirty descendants too: measuring the root again can reuse cached text/row sizes.
+        for (var index = 0; index < VisualTreeHelper.GetChildrenCount(element); index++)
+            if (VisualTreeHelper.GetChild(element, index) is UIElement child) InvalidateLayout(child);
+        element.InvalidateMeasure();
+        element.InvalidateArrange();
+    }
     private void Position()
     {
-        var area = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Primary).WorkArea;
-        var scale = GetDpiForWindow(hwnd) / 96.0;
-        var width = Math.Min((int)(364 * scale), area.Width);
+        // The native move loop pumps timer/refresh callbacks; do not fight the drag.
+        if (dragging) return;
+        var nativeScale = GetDpiForWindow(hwnd) / 96.0;
+        var scale = xamlRoot?.RasterizationScale ?? nativeScale;
+        // HWND DPI can change before XAML catches up. XamlRoot.Changed will retry.
+        if (Math.Abs(scale - nativeScale) > 0.001) return;
+        if (scale != layoutScale)
+        {
+            layoutScale = scale;
+            InvalidateLayout(RootLayout);
+        }
+        var area = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Nearest).WorkArea;
+        var width = Math.Min((int)Math.Ceiling(364 * scale), area.Width);
         var gap = (int)(12 * scale);
         RootLayout.Measure(new Windows.Foundation.Size(width / scale, double.PositiveInfinity));
-        var height = Math.Min((int)Math.Ceiling(RootLayout.DesiredSize.Height * scale), area.Height - 2 * gap);
-        var rect = new RectInt32(area.X + area.Width - width - gap, area.Y + area.Height - height - gap, width, height);
-        if (AppWindow.Position.X != rect.X || AppWindow.Position.Y != rect.Y || AppWindow.Size.Width != width || AppWindow.Size.Height != height) AppWindow.MoveAndResize(rect);
+        var height = Math.Min((int)Math.Ceiling(RootLayout.DesiredSize.Height * scale), Math.Max(1, area.Height - 2 * gap));
+        var placement = WindowPlacement.Fit(windowPosition?.X, windowPosition?.Y, width, height,
+            new WindowPlacement(area.X, area.Y, area.Width, area.Height), gap);
+        var rect = new RectInt32(placement.X, placement.Y, placement.Width, placement.Height);
+        if (AppWindow.Position.X != rect.X || AppWindow.Position.Y != rect.Y || AppWindow.Size.Width != rect.Width || AppWindow.Size.Height != rect.Height) AppWindow.MoveAndResize(rect);
+        if (windowPosition.HasValue)
+        {
+            windowPosition = AppWindow.Position;
+            RememberPosition();
+        }
+    }
+    private void HeaderLayoutUpdated(object? sender, object e) => UpdateNativeDragRegions();
+    private void UpdateNativeDragRegions()
+    {
+        if (dragging || exiting || Header.XamlRoot is null || Header.ActualWidth <= 0 || Header.ActualHeight <= 0) return;
+        var scale = Header.XamlRoot.RasterizationScale;
+        RectInt32 Bounds(FrameworkElement element)
+        {
+            var bounds = element.TransformToVisual(RootLayout).TransformBounds(
+                new Windows.Foundation.Rect(0, 0, element.ActualWidth, element.ActualHeight));
+            // Native regions use physical client pixels; round outward and clip to the window.
+            var left = Math.Clamp((int)Math.Floor(bounds.Left * scale), 0, AppWindow.ClientSize.Width);
+            var top = Math.Clamp((int)Math.Floor(bounds.Top * scale), 0, AppWindow.ClientSize.Height);
+            var right = Math.Clamp((int)Math.Ceiling(bounds.Right * scale), left, AppWindow.ClientSize.Width);
+            var bottom = Math.Clamp((int)Math.Ceiling(bounds.Bottom * scale), top, AppWindow.ClientSize.Height);
+            return new RectInt32(left, top, right - left, bottom - top);
+        }
+        var caption = new[] { Bounds(Header) };
+        var buttons = new[] { Bounds(RefreshArea), Bounds(SettingsButton), Bounds(HideButton) };
+        if (captionRegions.SequenceEqual(caption) && buttonRegions.SequenceEqual(buttons)) return;
+        nonClientInput.SetRegionRects(NonClientRegionKind.Caption, caption);
+        // Passthrough regions keep the complete button bounds interactive, including the refresh spinner.
+        nonClientInput.SetRegionRects(NonClientRegionKind.Passthrough, buttons);
+        captionRegions = caption;
+        buttonRegions = buttons;
+    }
+    private void NativeMoveStarting(InputNonClientPointerSource sender, EnteringMoveSizeEventArgs args)
+    {
+        dragStartPosition = AppWindow.Position;
+        dragging = true;
+    }
+    private void NativeMoveEnded(InputNonClientPointerSource sender, ExitedMoveSizeEventArgs args)
+    {
+        var start = dragStartPosition;
+        var end = AppWindow.Position;
+        void CompleteMove()
+        {
+            dragging = false;
+            if (exiting) return;
+            if (end.X != start.X || end.Y != start.Y) windowPosition = end;
+            Position();
+            UpdateNativeDragRegions();
+        }
+        // Keep layout and settings work on the XAML dispatcher if the input source calls off-thread.
+        if (DispatcherQueue.HasThreadAccess) CompleteMove();
+        else DispatcherQueue.TryEnqueue(CompleteMove);
+    }
+    private void RememberPosition()
+    {
+        var position = AppWindow.Position;
+        if (settings.WindowX == position.X && settings.WindowY == position.Y) return;
+        settings.WindowX = position.X;
+        settings.WindowY = position.Y;
+        settings.Save();
     }
     private void Toggle()
     {
