@@ -69,7 +69,7 @@ public sealed class UsageService
         process.BeginErrorReadLine();
         try
         {
-            await process.StandardInput.WriteLineAsync("{\"id\":1,\"method\":\"initialize\",\"params\":{\"clientInfo\":{\"name\":\"codex_usage_widget\",\"title\":\"Codex Usage Widget\",\"version\":\"1.0.0\"}}}");
+            await process.StandardInput.WriteLineAsync("{\"id\":1,\"method\":\"initialize\",\"params\":{\"clientInfo\":{\"name\":\"codex_usage_widget\",\"title\":\"Codex Usage Widget\",\"version\":\"0.2.0\"}}}");
             await ReceiveAsync(process, 1, timeout.Token);
             await process.StandardInput.WriteLineAsync("{\"method\":\"initialized\"}");
             var requestId = 1;
