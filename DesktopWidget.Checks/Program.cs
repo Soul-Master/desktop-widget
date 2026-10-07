@@ -343,10 +343,13 @@ try
     settings.TintOpacityPercent = 40;
     settings.WindowX = -1536;
     settings.WindowY = 120;
+    settings.WindowMonitor = new("left-display", -1920, 0, 1920, 1080, -1920, 0, 1920, 1040, 144);
     settings.Save(settingsPath);
     var restored = AppSettings.Load(settingsPath);
     Check(restored.RefreshIntervalSeconds == 120 && restored.TintOpacityPercent == 40, "Settings survive reload");
     Check(restored.WindowX == -1536 && restored.WindowY == 120, "Window position survives reload, including negative monitor coordinates");
+    Check(restored.WindowMonitor == settings.WindowMonitor && restored.WindowMonitor!.IsValid,
+        "Selected monitor identity, physical bounds, work area, and DPI survive settings reload");
     var originalSettings = File.ReadAllBytes(settingsPath);
     var originalWriteTime = File.GetLastWriteTimeUtc(settingsPath);
     readOnlySettings = AppSettings.Load(settingsPath, readOnly: true);
@@ -366,6 +369,13 @@ try
     restored = AppSettings.Load(settingsPath);
     Check(restored.RefreshIntervalSeconds == 60 && restored.WindowX is null && restored.WindowY is null,
         "Incomplete window position is ignored without losing other preferences");
+    File.WriteAllText(settingsPath, """{"refreshIntervalSeconds":60,"windowX":500,"windowY":300}""");
+    restored = AppSettings.Load(settingsPath);
+    Check(restored.WindowMonitor is null, "Legacy coordinates have no trusted monitor snapshot and cannot be restored");
+    File.WriteAllText(settingsPath, """{"refreshIntervalSeconds":60,"windowX":500,"windowY":300,"windowMonitor":{"deviceId":"display","width":1920,"height":1080,"workWidth":1920,"workHeight":1040,"dpi":0}}""");
+    restored = AppSettings.Load(settingsPath);
+    Check(restored.RefreshIntervalSeconds == 60 && restored.WindowMonitor is null,
+        "Invalid monitor metadata is ignored without losing other preferences");
     File.WriteAllText(settingsPath, "broken json");
     AppSettings.Load(settingsPath, readOnly: true).Save(settingsPath);
     Check(AppSettings.Load(settingsPath).RefreshIntervalSeconds == 30 && File.ReadAllText(settingsPath) == "broken json", "Malformed settings do not crash or overwrite original");
@@ -408,6 +418,65 @@ Check(constrainedSizing.ClientHeight(constrainedSizing.MaxLogicalHeight) == 200 
     "Height constraints keep scrolling content inside the usable client area");
 var fractionalSizing = WindowClientSizing.Calculate(364, 1.5, 1920, 1000);
 Check(fractionalSizing.ClientHeight(250.25) == 376, "Fractional logical height rounds outward to avoid clipping");
+
+// Every selected-monitor DPI is independent of every other monitor's DPI and screen origin.
+var dpiValues = new uint[] { 96, 120, 144, 168, 192, 216, 240, 288, 384, 480 };
+var origins = new (int X, int Y)[]
+{
+    (1920, 0), (-2560, 0), (0, -1440), (0, 1080),
+    (-2560, -1440), (1920, -600), (-1600, 1080), (3000, 2400)
+};
+var combinations = 0;
+foreach (var selectedDpi in dpiValues)
+foreach (var primaryDpi in dpiValues)
+foreach (var origin in origins)
+{
+    var primaryMonitor = new WindowMonitorSettings("primary", 0, 0, 1920, 1080, 0, 0, 1920, 1040, primaryDpi);
+    var selected = new WindowMonitorSettings("selected", origin.X, origin.Y, 2560, 1440,
+        origin.X + 40, origin.Y, 2520, 1400, selectedDpi);
+    var thirdMonitor = new WindowMonitorSettings("third", -4000, 1440, 1440, 2560, -4000, 1440, 1440, 2520, 168);
+    var monitors = new[] { thirdMonitor, primaryMonitor, selected };
+    if (!selected.CanRestore(monitors.Single(m => m.DeviceId == selected.DeviceId)))
+        throw new Exception("Mixed-DPI saved monitor must remain restorable");
+    if (selected.CanRestore(primaryMonitor) || selected.CanRestore(null))
+        throw new Exception("Wrong or disconnected monitor must reject restoration");
+    foreach (var changed in new[]
+    {
+        selected with { Dpi = selectedDpi + 1 },
+        selected with { X = origin.X + 100 }, selected with { Y = origin.Y - 100 },
+        selected with { Width = 1440, Height = 2560 },
+        selected with { WorkX = selected.WorkX + 20 }, selected with { WorkY = selected.WorkY + 40 },
+        selected with { WorkWidth = 2400 }, selected with { WorkHeight = 1360 },
+        selected with { DeviceId = "replacement-monitor" }
+    })
+        if (selected.CanRestore(changed)) throw new Exception("Changed selected monitor must reject restoration");
+    var scale = primaryDpi / 96.0;
+    var gap = (int)Math.Ceiling(12 * scale);
+    var size = WindowClientSizing.Calculate(364, scale, 1920, 1040 - 2 * gap);
+    var fallback = WindowPlacement.Fit(null, null, size.ClientWidth, size.ClientHeight(250),
+        new WindowPlacement(primaryMonitor.WorkX, primaryMonitor.WorkY, primaryMonitor.WorkWidth, primaryMonitor.WorkHeight), gap);
+    var horizontalGap = Math.Min(gap, (1920 - fallback.Width) / 2);
+    var verticalGap = Math.Min(gap, (1040 - fallback.Height) / 2);
+    if (fallback.X + fallback.Width + horizontalGap != 1920 || fallback.Y + fallback.Height + verticalGap != 1040)
+        throw new Exception("Fallback must use the primary monitor's bottom-right corner and its own DPI");
+    combinations++;
+}
+Check(combinations == 800, "800 mixed-DPI/origin combinations preserve matching monitors and reject changed monitors; fallback uses primary DPI");
+
+if (OperatingSystem.IsWindows() && args.Contains("--windows-placement"))
+{
+    var nativeMonitors = WindowMonitor.FindAll();
+    Check(nativeMonitors.Count > 0 && nativeMonitors.Count(m => m.IsPrimary) == 1,
+        "Native monitor enumeration identifies exactly one current primary screen");
+    Check(nativeMonitors.All(m => m.Handle != IntPtr.Zero && !string.IsNullOrWhiteSpace(m.Settings.DeviceId)),
+        "Native monitor handles and device interface identities are readable");
+    Check(nativeMonitors.All(m => m.Settings.Width > 0 && m.Settings.Height > 0 &&
+        m.Settings.WorkWidth > 0 && m.Settings.WorkHeight > 0 &&
+        m.Settings.WorkX >= m.Settings.X && m.Settings.WorkY >= m.Settings.Y &&
+        (long)m.Settings.WorkX + m.Settings.WorkWidth <= (long)m.Settings.X + m.Settings.Width &&
+        (long)m.Settings.WorkY + m.Settings.WorkHeight <= (long)m.Settings.Y + m.Settings.Height),
+        "Native work areas use the same screen coordinate space as monitor bounds");
+}
 
 var demo = new DemoUsageService(Path.Combine(AppContext.BaseDirectory, "Demo", "plus-session.json"));
 Check(demo.Configuration.UpdateMilliseconds == 1000 && demo.Configuration.Frames.Length == 24 && demo.Configuration.RetrievalMilliseconds == 200, "Demo timing configuration");

@@ -31,6 +31,8 @@ public sealed partial class MainWindow : Window
     private int tintOpacityPercent = -1;
     private readonly AppSettings settings;
     private PointInt32? windowPosition;
+    private WindowMonitorSettings? windowMonitor;
+    private bool rememberPositionPending;
     private volatile bool dragging;
     private PointInt32 dragStartPosition;
     private readonly InputNonClientPointerSource nonClientInput;
@@ -49,6 +51,7 @@ public sealed partial class MainWindow : Window
         settings = AppSettings.Load(readOnly: demo is not null);
         if (settings.WindowX is int x && settings.WindowY is int y)
             windowPosition = new PointInt32(x, y);
+        windowMonitor = settings.WindowMonitor;
         InitializeComponent();
         tintOpacityPercent = settings.TintOpacityPercent;
         ViewModel.SelectedInterval = ViewModel.Intervals.First(interval => interval.Seconds == settings.RefreshIntervalSeconds);
@@ -110,8 +113,6 @@ public sealed partial class MainWindow : Window
         nonClientInput.ExitedMoveSize += NativeMoveEnded;
         // Geometry is valid only after layout; cache regions to avoid resetting them on every tick.
         Header.LayoutUpdated += HeaderLayoutUpdated;
-        // Move before measuring so a restored monitor's DPI determines the size.
-        if (windowPosition is PointInt32 savedPosition) AppWindow.Move(savedPosition);
         var corner = 2;
         DwmSetWindowAttribute(hwnd, 33, ref corner, sizeof(int));
         tray = new TrayIndicator(() => DispatcherQueue.TryEnqueue(Toggle), () => DispatcherQueue.TryEnqueue(async () => await RefreshAsync()), () => DispatcherQueue.TryEnqueue(Exit));
@@ -181,23 +182,72 @@ public sealed partial class MainWindow : Window
         element.InvalidateMeasure();
         element.InvalidateArrange();
     }
+    private void ResetPosition()
+    {
+        windowPosition = null;
+        windowMonitor = null;
+        rememberPositionPending = false;
+        if (settings.WindowX is null && settings.WindowY is null && settings.WindowMonitor is null) return;
+        settings.WindowX = settings.WindowY = null;
+        settings.WindowMonitor = null;
+        settings.Save();
+    }
+    private void MoveToMonitor(WindowMonitor monitor)
+    {
+        if (WindowMonitor.FromWindow(hwnd)?.Handle == monitor.Handle) return;
+        var area = monitor.Settings;
+        // A tiny staging rectangle wholly inside the target selects its native DPI before measuring.
+        // Moving the old, larger rectangle to a saved point can select an adjacent monitor instead.
+        AppWindow.MoveAndResize(new RectInt32(area.WorkX + area.WorkWidth / 2,
+            area.WorkY + area.WorkHeight / 2, 1, 1));
+    }
     private void Position()
     {
         if (exiting || positioning) return;
-        var dpi = GetDpiForWindow(hwnd);
-        var nativeScale = (dpi == 0 ? 96 : dpi) / 96.0;
-        // Resize for a DPI transition even inside the native move loop. Leave its position alone.
-        if (dragging && nativeScale == windowScale) return;
         positioning = true;
         try
         {
+            WindowMonitor? monitor;
+            if (dragging)
+            {
+                // A user drag may deliberately select another monitor; do not validate the old location.
+                monitor = WindowMonitor.FromWindow(hwnd);
+            }
+            else
+            {
+                var monitors = WindowMonitor.FindAll();
+                monitor = windowPosition.HasValue && windowMonitor?.IsValid == true
+                    ? monitors.FirstOrDefault(m => windowMonitor.MatchesGeometry(m.Settings)) : null;
+                if (monitor is null)
+                {
+                    ResetPosition();
+                    monitor = monitors.FirstOrDefault(m => m.IsPrimary);
+                }
+            }
+            // Displays can temporarily disappear while Windows applies a configuration change.
+            if (monitor is null) return;
+            if (!dragging) MoveToMonitor(monitor);
+            var dpi = GetDpiForWindow(hwnd);
+            if (dpi == 0) return;
+            if (!dragging && windowPosition.HasValue &&
+                windowMonitor?.CanRestore(monitor.Settings with { Dpi = dpi }) != true)
+            {
+                // Geometry matched, but its scaling changed: discard the old location permanently.
+                ResetPosition();
+                monitor = WindowMonitor.FindAll().FirstOrDefault(m => m.IsPrimary);
+                if (monitor is null) return;
+                MoveToMonitor(monitor);
+                dpi = GetDpiForWindow(hwnd);
+                if (dpi == 0) return;
+            }
+            var nativeScale = dpi / 96.0;
             windowScale = nativeScale;
-            var area = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Nearest).WorkArea;
+            var area = monitor.Settings;
             var chromeWidth = Math.Max(0, AppWindow.Size.Width - AppWindow.ClientSize.Width);
             var chromeHeight = Math.Max(0, AppWindow.Size.Height - AppWindow.ClientSize.Height);
             var gap = (int)Math.Ceiling(12 * nativeScale);
             var sizing = WindowClientSizing.Calculate(RootLayout.Width, nativeScale,
-                area.Width - chromeWidth, area.Height - chromeHeight - 2 * gap);
+                area.WorkWidth - chromeWidth, area.WorkHeight - chromeHeight - 2 * gap);
 
             // Elements always measure in the same logical canvas, regardless of HWND/XAML DPI timing.
             RootLayout.MaxHeight = sizing.MaxLogicalHeight;
@@ -216,13 +266,21 @@ public sealed partial class MainWindow : Window
             if (dragging) return;
             var placement = WindowPlacement.Fit(windowPosition?.X, windowPosition?.Y,
                 AppWindow.Size.Width, AppWindow.Size.Height,
-                new WindowPlacement(area.X, area.Y, area.Width, area.Height), gap);
+                new WindowPlacement(area.WorkX, area.WorkY, area.WorkWidth, area.WorkHeight), gap);
             if (AppWindow.Position.X != placement.X || AppWindow.Position.Y != placement.Y)
                 AppWindow.Move(new PointInt32(placement.X, placement.Y));
-            if (windowPosition.HasValue)
+            // Native DPI can change synchronously during Move/Resize. Remeasure before saving anything.
+            if (GetDpiForWindow(hwnd) != dpi || WindowMonitor.FromWindow(hwnd)?.Handle != monitor.Handle)
+            {
+                QueuePosition();
+                return;
+            }
+            if (rememberPositionPending && windowPosition.HasValue)
             {
                 windowPosition = AppWindow.Position;
+                windowMonitor = area with { Dpi = dpi };
                 RememberPosition();
+                rememberPositionPending = false;
             }
         }
         finally { positioning = false; }
@@ -266,7 +324,13 @@ public sealed partial class MainWindow : Window
         {
             dragging = false;
             if (exiting) return;
-            if (end.X != start.X || end.Y != start.Y) windowPosition = end;
+            if (end.X != start.X || end.Y != start.Y)
+            {
+                windowPosition = end;
+                windowMonitor = WindowMonitor.FromWindow(hwnd) is { } monitor
+                    ? monitor.Settings with { Dpi = GetDpiForWindow(hwnd) } : null;
+                rememberPositionPending = true;
+            }
             Position();
             UpdateNativeDragRegions();
         }
@@ -277,9 +341,11 @@ public sealed partial class MainWindow : Window
     private void RememberPosition()
     {
         var position = AppWindow.Position;
-        if (settings.WindowX == position.X && settings.WindowY == position.Y) return;
+        if (settings.WindowX == position.X && settings.WindowY == position.Y &&
+            settings.WindowMonitor == windowMonitor) return;
         settings.WindowX = position.X;
         settings.WindowY = position.Y;
+        settings.WindowMonitor = windowMonitor;
         settings.Save();
     }
     private void Toggle()
@@ -291,6 +357,8 @@ public sealed partial class MainWindow : Window
             Position();
             UpdateTray(force: true);
             AppWindow.Show();
+            // Showing a hidden HWND can deliver a deferred DPI transition.
+            QueuePosition();
         }
     }
     private async void Exit()

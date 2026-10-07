@@ -12,6 +12,7 @@ public sealed class AppSettings
     public int TintOpacityPercent { get; set; } = -1;
     public int? WindowX { get; set; }
     public int? WindowY { get; set; }
+    public WindowMonitorSettings? WindowMonitor { get; set; }
 
     public static string DefaultPath => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DesktopWidget", "settings.json");
@@ -36,6 +37,8 @@ public sealed class AppSettings
                 settings.TintOpacityPercent = -1;
             if (settings.WindowX.HasValue != settings.WindowY.HasValue)
                 settings.WindowX = settings.WindowY = null;
+            if (!settings.WindowX.HasValue || settings.WindowMonitor?.IsValid != true)
+                settings.WindowMonitor = null;
             return settings;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
@@ -64,6 +67,19 @@ public sealed class AppSettings
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
         }
     }
+}
+
+// Screen coordinates are physical pixels. Restore them only in the same monitor environment.
+public sealed record WindowMonitorSettings(string DeviceId, int X, int Y, int Width, int Height,
+    int WorkX, int WorkY, int WorkWidth, int WorkHeight, uint Dpi)
+{
+    internal bool IsValid => !string.IsNullOrWhiteSpace(DeviceId) && Width > 0 && Height > 0 &&
+        WorkWidth > 0 && WorkHeight > 0 && Dpi > 0;
+
+    internal bool MatchesGeometry(WindowMonitorSettings current) =>
+        this with { Dpi = current.Dpi } == current;
+
+    internal bool CanRestore(WindowMonitorSettings? current) => IsValid && this == current;
 }
 
 [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase, WriteIndented = true)]
