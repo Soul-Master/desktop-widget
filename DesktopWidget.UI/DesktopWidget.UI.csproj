@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<AssemblyName>DesktopWidget</AssemblyName>
-		<Version>0.2.0</Version>
+		<AssemblyName>DesktopWidget.Window</AssemblyName>
+		<Version>0.3.0</Version>
 		<TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
 		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 		<RootNamespace>DesktopWidget.UI</RootNamespace>
@@ -15,8 +15,38 @@
 		<WinUISDKReferences>false</WinUISDKReferences>
 		<EnableMsixTooling>true</EnableMsixTooling>
 		<Nullable>enable</Nullable>
+		<!-- C#/WinRT generates unsafe vtables for the collections bound to WinUI. -->
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Configurations>Debug;Release;Deploy</Configurations>
+		<!-- Standalone IDE builds must retain the UI configuration for the host reference. -->
+		<ShouldUnsetParentConfigurationAndPlatform>false</ShouldUnsetParentConfigurationAndPlatform>
 	</PropertyGroup>
+	<ItemGroup>
+		<!-- The host is an independent executable. Copy its resolved outputs ourselves. -->
+		<ProjectReference Include="../DesktopWidget.Host/DesktopWidget.Host.csproj"
+			ReferenceOutputAssembly="false" Private="false" OutputItemType="MonitorHostAssembly"
+			SetConfiguration="Configuration=$(Configuration)" SetPlatform="Platform=$(Platform)"
+			GlobalPropertiesToRemove="PublishProfile" />
+		<Compile Remove="TrayIndicator.cs;TrayIconRenderer.cs" />
+	</ItemGroup>
+	<!-- The UI build remains the distribution entry point, packaging the independent native host. -->
+	<!-- Native AOT creates the executable during Publish; PublishMonitorHost packages it then. -->
+	<Target Name="CopyMonitorHost" AfterTargets="Build" Condition="'$(DesignTimeBuild)' != 'true' and '$(_IsPublishing)' != 'true'">
+		<PropertyGroup>
+			<MonitorHostDirectory>@(MonitorHostAssembly->'%(RootDir)%(Directory)')</MonitorHostDirectory>
+		</PropertyGroup>
+		<Error Condition="'$(MonitorHostDirectory)' == ''" Text="The monitor host output was not resolved. Enable DesktopWidget.Host in the solution build configuration." />
+		<ItemGroup>
+			<MonitorHostFiles Include="$(MonitorHostDirectory)DesktopWidget.exe;$(MonitorHostDirectory)DesktopWidget.dll;$(MonitorHostDirectory)DesktopWidget.deps.json;$(MonitorHostDirectory)DesktopWidget.runtimeconfig.json" />
+			<MonitorHostFiles Include="$(MonitorHostDirectory)DesktopWidget.pdb" Condition="Exists('$(MonitorHostDirectory)DesktopWidget.pdb')" />
+		</ItemGroup>
+		<Copy SourceFiles="@(MonitorHostFiles)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+	</Target>
+	<Target Name="PublishMonitorHost" AfterTargets="Publish">
+		<MSBuild Projects="../DesktopWidget.Host/DesktopWidget.Host.csproj" Targets="Publish"
+			Properties="Configuration=$(Configuration);Platform=$(Platform);RuntimeIdentifier=$(RuntimeIdentifier);PublishAot=$(PublishAot);PublishTrimmed=$(PublishTrimmed);SelfContained=$(SelfContained);PublishDir=$([System.IO.Path]::GetFullPath('$(PublishDir)'))"
+			RemoveProperties="PublishProfile;UseWinUI;WindowsPackageType" />
+	</Target>
 	<ItemGroup>
 		<Content Include="Demo\*.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 		<Content Remove="Assets\openai-icon.svg" />
@@ -45,12 +75,12 @@
 		<ProjectCapability Include="Msix" />
 	</ItemGroup>
 	<ItemGroup>
-		<FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2705" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="2.5.1" />
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<WebView2EnableCsWinRTProjection>False</WebView2EnableCsWinRTProjection>
+		<!-- Use WinUI's WinRT projection instead of the WinForms/WPF adapters. -->
+		<WebView2EnableCsWinRTProjection>True</WebView2EnableCsWinRTProjection>
 	</PropertyGroup>
 
 	<!--
@@ -64,9 +94,7 @@
 
 	<!-- Publish Properties -->
 	<PropertyGroup>
-		<PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
-		<PublishReadyToRun Condition="'$(Configuration)'=='Deploy'">False</PublishReadyToRun>
-		<PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
+		<PublishReadyToRun>false</PublishReadyToRun>
 		<SupportedOSPlatformVersion>10.0.26100.0</SupportedOSPlatformVersion>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">

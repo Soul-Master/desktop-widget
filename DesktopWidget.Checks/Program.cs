@@ -1,7 +1,19 @@
 using DesktopWidget.UI;
 using System.Text.Json;
+if (Array.IndexOf(args, "--windows-host") is var hostIndex && hostIndex >= 0)
+{
+    if (hostIndex + 1 >= args.Length) throw new ArgumentException("Pass the published DesktopWidget.exe path after --windows-host.");
+    await HostLifecycleChecks.RunAsync(args[hostIndex + 1]);
+    return;
+}
+if (args.Contains("--windows-tray"))
+{
+    TrayChecks.Run();
+    return;
+}
 static void Check(bool condition, string name) { if (!condition) throw new Exception(name); Console.WriteLine($"PASS {name}"); }
 static IReadOnlyList<UsagePeriod> Parse(string json) => UsageService.Parse(json);
+await MonitorChecks.RunAsync();
 var periods = Parse("""{"rateLimitsByLimitId":{"codex":{"secondary":{"usedPercent":25,"windowDurationMins":10080,"resetsAt":2000000000},"primary":{"usedPercent":61,"windowDurationMins":300,"resetsAt":1900000000}},"other":{"primary":{"usedPercent":99,"windowDurationMins":1}}}}""");
 Check(periods.Count == 2 && periods[0].Minutes == 300 && periods[0].Remaining == 39, "General bucket only; shortest period first; remaining calculation");
 Check(periods[1].Label == "1 week", "Weekly period label");

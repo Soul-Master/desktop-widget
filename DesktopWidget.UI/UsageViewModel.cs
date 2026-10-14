@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace DesktopWidget.UI;
 
-public abstract class ObservableModel : INotifyPropertyChanged
+public abstract partial class ObservableModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
     protected void Notify([CallerMemberName] string? name = null) => PropertyChanged?.Invoke(this, new(name));
@@ -22,7 +22,7 @@ public abstract class ObservableModel : INotifyPropertyChanged
 
 public sealed record UpdateInterval(int Seconds, string Label);
 
-public sealed class UsageViewModel : ObservableModel
+public sealed partial class UsageViewModel : ObservableModel
 {
     private BudgetEstimator budgetEstimator = new();
     private BudgetHistory? budgetHistory;
@@ -86,10 +86,11 @@ public sealed class UsageViewModel : ObservableModel
     public string Status { get => status; set => Set(ref status, value); }
     public string Message { get => message; set { if (Set(ref message, value)) Notify(nameof(HasMessage)); } }
     public bool HasMessage => !string.IsNullOrEmpty(Message);
-    public void SetPeriods(IEnumerable<UsagePeriod> periods, DateTimeOffset? observedAt = null)
+    public void SetPeriods(IEnumerable<UsagePeriod> periods, DateTimeOffset? observedAt = null,
+        IReadOnlyDictionary<int, double>? suppliedEstimates = null)
     {
         var incoming = periods.ToArray();
-        var estimates = budgetHistory is null ? budgetEstimator.Observe(incoming, observedAt) : budgetHistory.Observe(incoming, PlanType, observedAt);
+        var estimates = suppliedEstimates ?? (budgetHistory is null ? budgetEstimator.Observe(incoming, observedAt) : budgetHistory.Observe(incoming, PlanType, observedAt));
         for (var index = 0; index < incoming.Length; index++)
         {
             var period = incoming[index];
@@ -117,11 +118,12 @@ public sealed class UsageViewModel : ObservableModel
     }
 }
 
-public sealed class UsagePeriodViewModel : ObservableModel
+public sealed partial class UsagePeriodViewModel : ObservableModel
 {
     public UsagePeriod Model { get; private set; }
     private string countdown;
     private double? budgetEstimate;
+    public double? BudgetEstimate => budgetEstimate;
     public bool ShowSeconds { get; set; } = true;
     public UsagePeriodViewModel(UsagePeriod model) { Model = model; countdown = model.Countdown(DateTimeOffset.UtcNow); }
     public string Label => budgetEstimate is { } estimate

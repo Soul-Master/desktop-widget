@@ -7,7 +7,7 @@ using System;
 namespace DesktopWidget.UI;
 
 // One instance per window. XAML supplies activation, theme, and accessibility policy.
-public sealed class TintedAcrylicBackdrop(double tintOpacity) : SystemBackdrop
+public sealed partial class TintedAcrylicBackdrop(double tintOpacity) : SystemBackdrop
 {
     private DesktopAcrylicController? controller;
 

@@ -14,6 +14,14 @@ public sealed class AppSettings
     public int? WindowY { get; set; }
     public WindowMonitorSettings? WindowMonitor { get; set; }
 
+    // Pipe messages must not share a mutable settings instance with the monitor.
+    public AppSettings Copy() => new()
+    {
+        RefreshIntervalSeconds = RefreshIntervalSeconds,
+        TintOpacityPercent = TintOpacityPercent,
+        WindowX = WindowX, WindowY = WindowY, WindowMonitor = WindowMonitor
+    };
+
     public static string DefaultPath => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DesktopWidget", "settings.json");
 

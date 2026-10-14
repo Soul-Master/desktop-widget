@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>DesktopWidget</AssemblyName>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.26100.0</SupportedOSPlatformVersion>
+    <Platforms>x86;x64</Platforms>
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == '' and '$(Platform)' == 'x86'">win-x86</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishAot>true</PublishAot>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationManifest>../DesktopWidget.UI/app.manifest</ApplicationManifest>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <ServerGarbageCollection>false</ServerGarbageCollection>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../DesktopWidget.UI/UsageService.cs" Link="UsageService.cs" />
+    <Compile Include="../DesktopWidget.UI/UsageModels.cs" Link="UsageModels.cs" />
+    <Compile Include="../DesktopWidget.UI/UsageViewModel.cs" Link="UsageViewModel.cs" />
+    <Compile Include="../DesktopWidget.UI/BudgetEstimator.cs" Link="BudgetEstimator.cs" />
+    <Compile Include="../DesktopWidget.UI/BudgetHistory.cs" Link="BudgetHistory.cs" />
+    <Compile Include="../DesktopWidget.UI/AppSettings.cs" Link="AppSettings.cs" />
+    <Compile Include="../DesktopWidget.UI/DemoUsageService.cs" Link="DemoUsageService.cs" />
+    <Compile Include="../DesktopWidget.UI/MonitorProtocol.cs" Link="MonitorProtocol.cs" />
+    <Compile Include="../DesktopWidget.UI/TrayIndicator.cs" Link="TrayIndicator.cs" />
+    <Compile Include="../DesktopWidget.UI/TrayIconRenderer.cs" Link="TrayIconRenderer.cs" />
+  </ItemGroup>
+</Project>

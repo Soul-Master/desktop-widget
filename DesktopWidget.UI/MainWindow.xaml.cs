@@ -12,22 +12,21 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics;
+using WinRT;
 namespace DesktopWidget.UI;
 public sealed partial class MainWindow : Window
 {
-    private readonly UsageService service = new();
-    private readonly DemoUsageService? demo;
-    private DateTimeOffset UsageNow => demo?.Now ?? DateTimeOffset.Now;
+    private readonly string pipeName;
+    private DateTimeOffset usageNow = DateTimeOffset.Now;
+    private DateTimeOffset stateReceived = DateTimeOffset.UtcNow;
+    private DateTimeOffset UsageNow => usageNow + (DateTimeOffset.UtcNow - stateReceived);
+    private readonly SemaphoreSlim requests = new(1, 1);
+    private long appliedRevision = -1;
+    private bool applyingState, polling;
     private readonly CancellationTokenSource lifetime = new();
     private readonly DispatcherTimer clock = new() { Interval = TimeSpan.FromSeconds(1) };
     public UsageViewModel ViewModel { get; } = new();
-    private readonly TrayIndicator tray;
-    private IReadOnlyList<UsagePeriod> periods = Array.Empty<UsagePeriod>();
-    private DateTimeOffset nextRefresh = DateTimeOffset.MinValue;
-    private DateTimeOffset? updated;
-    private bool busy, stale, exiting;
-    private Task activeRefresh = Task.CompletedTask;
-    private int lastExpiredMask = -1;
+    private bool exiting;
     private int tintOpacityPercent = -1;
     private readonly AppSettings settings;
     private PointInt32? windowPosition;
@@ -45,20 +44,16 @@ public sealed partial class MainWindow : Window
     private bool positionQueued;
 
     private readonly IntPtr hwnd;
-    public MainWindow(DemoUsageService? demo = null)
+    public MainWindow(string pipeName, MonitorState initialState)
     {
-        this.demo = demo;
-        settings = AppSettings.Load(readOnly: demo is not null);
+        this.pipeName = pipeName;
+        settings = initialState.Settings;
         if (settings.WindowX is int x && settings.WindowY is int y)
             windowPosition = new PointInt32(x, y);
         windowMonitor = settings.WindowMonitor;
         InitializeComponent();
         tintOpacityPercent = settings.TintOpacityPercent;
         ViewModel.SelectedInterval = ViewModel.Intervals.First(interval => interval.Seconds == settings.RefreshIntervalSeconds);
-        if (demo is not null)
-        {
-            clock.Interval = TimeSpan.FromMilliseconds(100);
-        }
         ApplyTintOpacity();
         foreach (var percent in new[] { -1, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 })
         {
@@ -88,20 +83,19 @@ public sealed partial class MainWindow : Window
         {
             if (e.PropertyName == nameof(UsageViewModel.SelectedInterval))
             {
-                if (demo is null)
-                    nextRefresh = DateTimeOffset.UtcNow.AddSeconds(ViewModel.SelectedInterval.Seconds);
                 SyncIntervalMenu();
-                if (demo is null)
+                if (!applyingState)
                 {
                     settings.RefreshIntervalSeconds = ViewModel.SelectedInterval.Seconds;
-                    settings.Save();
+                    _ = RequestAsync(new() { Action = "interval", IntervalSeconds = ViewModel.SelectedInterval.Seconds });
                 }
             }
         };
         hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
         ExtendsContentIntoTitleBar = true;
         RootLayout.Loaded += RootLayoutLoaded;
-        var presenter = (OverlappedPresenter)AppWindow.Presenter;
+        // Preserve the derived WinRT projection when publishing with trimming / Native AOT.
+        var presenter = AppWindow.Presenter.As<OverlappedPresenter>();
         presenter.SetBorderAndTitleBar(false, false);
         presenter.IsResizable = false;
         presenter.IsMaximizable = false;
@@ -115,35 +109,40 @@ public sealed partial class MainWindow : Window
         Header.LayoutUpdated += HeaderLayoutUpdated;
         var corner = 2;
         DwmSetWindowAttribute(hwnd, 33, ref corner, sizeof(int));
-        tray = new TrayIndicator(() => DispatcherQueue.TryEnqueue(Toggle), () => DispatcherQueue.TryEnqueue(async () => await RefreshAsync()), () => DispatcherQueue.TryEnqueue(Exit));
-        AppWindow.Closing += (_, e) => { if (!exiting) { e.Cancel = true; AppWindow.Hide(); } };
+        AppWindow.Closing += async (_, e) =>
+        {
+            if (exiting) return;
+            e.Cancel = true;
+            await CloseWindowAsync();
+        };
         AppWindow.Changed += AppWindowChanged;
         Closed += (_, _) =>
         {
+            exiting = true;
             lifetime.Cancel();
             clock.Stop();
-            tray.Dispose();
+            SystemBackdrop = null;
             RootLayout.Loaded -= RootLayoutLoaded;
             AppWindow.Changed -= AppWindowChanged;
             if (xamlRoot is not null) xamlRoot.Changed -= XamlRootChanged;
             nonClientInput.EnteringMoveSize -= NativeMoveStarting;
             nonClientInput.ExitedMoveSize -= NativeMoveEnded;
             Header.LayoutUpdated -= HeaderLayoutUpdated;
+            Application.Current.Exit();
         };
         clock.Tick += async (_, _) =>
         {
-            if (exiting) return;
-            if (AppWindow.IsVisible)
-            {
-                ViewModel.Tick(UsageNow);
-                Position();
-            }
-            UpdateTray();
-            if (demo?.IsComplete != true && DateTimeOffset.UtcNow >= nextRefresh) await RefreshAsync();
+            if (exiting || polling) return;
+            ViewModel.Tick(UsageNow);
+            Position();
+            polling = true;
+            try { await RequestAsync(new()); }
+            finally { polling = false; }
         };
+        ApplyState(initialState);
         Position();
         clock.Start();
-        _ = RefreshAsync();
+        _ = RequestAsync(new() { Action = "ready", WindowHandle = hwnd.ToInt64() });
     }
     private void RootLayoutLoaded(object sender, RoutedEventArgs e)
     {
@@ -190,7 +189,7 @@ public sealed partial class MainWindow : Window
         if (settings.WindowX is null && settings.WindowY is null && settings.WindowMonitor is null) return;
         settings.WindowX = settings.WindowY = null;
         settings.WindowMonitor = null;
-        settings.Save();
+        SaveWindowSettings();
     }
     private void MoveToMonitor(WindowMonitor monitor)
     {
@@ -346,34 +345,25 @@ public sealed partial class MainWindow : Window
         settings.WindowX = position.X;
         settings.WindowY = position.Y;
         settings.WindowMonitor = windowMonitor;
-        settings.Save();
+        SaveWindowSettings();
     }
-    private void Toggle()
-    {
-        if (AppWindow.IsVisible) AppWindow.Hide();
-        else
-        {
-            ViewModel.Tick(UsageNow);
-            Position();
-            UpdateTray(force: true);
-            AppWindow.Show();
-            // Showing a hidden HWND can deliver a deferred DPI transition.
-            QueuePosition();
-        }
-    }
-    private async void Exit()
+    // Closing destroys the window and exits this process. Only the native host remains.
+    private async void HideClick(object sender, RoutedEventArgs e) => await CloseWindowAsync();
+
+    private async Task CloseWindowAsync()
     {
         if (exiting) return;
         exiting = true;
         clock.Stop();
-        ViewModel.IsLoading = true;
-        lifetime.Cancel();
-        // Reap the cancelled app-server process before stopping the UI loop.
-        await activeRefresh;
+        // Finish queued preferences before the Closed handler cancels pipe requests.
+        try
+        {
+            await requests.WaitAsync(lifetime.Token);
+            requests.Release();
+        }
+        catch (OperationCanceledException) { }
         Close();
-        Application.Current.Exit();
     }
-    private void HideClick(object sender, RoutedEventArgs e) => AppWindow.Hide();
     private void TintOpacityClick(object sender, RoutedEventArgs e)
     {
         if (sender is ToggleMenuFlyoutItem { Tag: int percent } && percent != tintOpacityPercent)
@@ -381,7 +371,7 @@ public sealed partial class MainWindow : Window
             tintOpacityPercent = percent;
             ApplyTintOpacity();
             settings.TintOpacityPercent = percent;
-            settings.Save();
+            SaveWindowSettings();
         }
         foreach (var item in TintOpacityMenu.Items.OfType<ToggleMenuFlyoutItem>())
             item.IsChecked = Equals(item.Tag, tintOpacityPercent);
@@ -404,89 +394,59 @@ public sealed partial class MainWindow : Window
         foreach (var item in UpdateIntervalMenu.Items.OfType<ToggleMenuFlyoutItem>())
             item.IsChecked = Equals(item.Tag, ViewModel.SelectedInterval);
     }
-    private async void RefreshClick(object sender, RoutedEventArgs e) => await RefreshAsync();
-    private Task RefreshAsync()
-    {
-        if (busy || exiting) return activeRefresh;
-        activeRefresh = RefreshCoreAsync();
-        return activeRefresh;
-    }
-    private async Task RefreshCoreAsync()
-    {
-        if (busy || exiting) return;
-        busy = true;
-        var refreshStarted = DateTimeOffset.UtcNow;
+    private async void RefreshClick(object sender, RoutedEventArgs e)
+        => await RequestAsync(new() { Action = "refresh" });
 
-        ViewModel.IsLoading = true;
-        ViewModel.Status = "Refreshing…";
+    private void SaveWindowSettings()
+        => _ = RequestAsync(new() { Action = "settings", Settings = settings.Copy() });
+
+    private void ApplyState(MonitorState state)
+    {
+        usageNow = state.Now;
+        stateReceived = DateTimeOffset.UtcNow;
+        clock.Interval = TimeSpan.FromMilliseconds(state.UiTickMilliseconds);
+        if (state.Revision == appliedRevision)
+        {
+            ViewModel.Tick(UsageNow);
+            return;
+        }
+        appliedRevision = state.Revision;
+        applyingState = true;
         try
         {
-            UsageSnapshot snapshot;
-            if (demo?.IsComplete == true)
-            {
-                await Task.Delay(demo.Configuration.RetrievalMilliseconds, lifetime.Token);
-                snapshot = new UsageSnapshot(periods, ViewModel.PlanType);
-            }
-            else snapshot = demo is null ? await service.ReadSnapshotAsync(lifetime.Token) : await demo.ReadSnapshotAsync(lifetime.Token);
-            if (exiting) return;
-            periods = snapshot.Periods;
-            if (demo is null) ViewModel.UseAccountHistory(snapshot.AccountKey);
-            ViewModel.PlanType = snapshot.PlanType;
-            updated = UsageNow;
-            stale = false;
-
-            ViewModel.Message = periods.Count == 0 ? "No general usage limits returned. Sign in to Codex with your ChatGPT account." : string.Empty;
-            ViewModel.IsStale = false;
-            ViewModel.SetPeriods(periods, UsageNow);
-            ViewModel.Tick(UsageNow);
-            ViewModel.Status = $"Last Updated: {updated:HH:mm}";
-            if (demo?.IsComplete == true)
-            {
-                clock.Interval = TimeSpan.FromSeconds(1);
-            }
+            settings.RefreshIntervalSeconds = state.RefreshIntervalSeconds;
+            ViewModel.SelectedInterval = ViewModel.Intervals.First(i => i.Seconds == state.RefreshIntervalSeconds);
+            ViewModel.PlanType = state.PlanType;
+            ViewModel.SetPeriods(state.Periods, UsageNow, state.Estimates);
+            ViewModel.IsLoading = state.IsLoading;
+            ViewModel.IsStale = state.IsStale;
+            ViewModel.Message = state.Message;
+            ViewModel.Status = state.Status;
+            ViewModel.RefreshEnabled = !state.DemoComplete;
+            Position();
         }
-        catch (OperationCanceledException) when (lifetime.IsCancellationRequested) { return; }
-        catch (Exception exception)
-        {
-            if (exiting) return;
-            stale = true;
-
-            ViewModel.Message = exception is OperationCanceledException ? "Connection timed out. Retrying automatically." : exception is System.IO.FileNotFoundException or InvalidOperationException ? exception.Message : "Unable to connect to Codex. Check your connection and Codex sign-in.";
-            ViewModel.Status = updated.HasValue ? $"Offline · Last read {updated:HH:mm}" : "Not connected";
-            ViewModel.IsStale = true;
-        }
-        finally
-        {
-            busy = false;
-            nextRefresh = demo is null ? DateTimeOffset.UtcNow.AddSeconds(ViewModel.SelectedInterval.Seconds)
-                : refreshStarted.AddMilliseconds(demo.Configuration.UpdateMilliseconds);
-            if (!exiting)
-            {
-                ViewModel.IsLoading = false;
-                UpdateTray(force: true);
-                if (AppWindow.IsVisible) Position();
-            }
-        }
+        finally { applyingState = false; }
     }
-    private void UpdateTray(bool force = false)
+
+    private async Task RequestAsync(MonitorCommand command)
     {
-        // Expiry is the only tooltip change between account refreshes.
-        var expiredMask = 0;
-        for (var index = 0; index < periods.Count; index++)
-            if (periods[index].Reset <= UsageNow) expiredMask |= 1 << index;
-        if (!force && expiredMask == lastExpiredMask) return;
-        lastExpiredMask = expiredMask;
-        var shortest = periods.FirstOrDefault(p => p.Minutes.HasValue);
-        var available = !stale && shortest is not null && !(shortest.Reset <= UsageNow);
-        var tooltip = "Codex - Usage Limits";
-        if (periods.Count == 0) tooltip += "\nUsage unavailable";
-        else
+        try
         {
-            tooltip += "\n" + string.Join("\n", periods.Select(period =>
-                $"{period.Label}  {Math.Floor(period.Remaining)}%{(period.Reset <= UsageNow ? " (awaiting refresh)" : string.Empty)}"));
-            if (stale) tooltip += "\nOffline - last known values";
+            await requests.WaitAsync(lifetime.Token);
+            try
+            {
+                var state = await MonitorProtocol.RequestAsync(pipeName, command, lifetime.Token);
+                if (exiting) return;
+                ApplyState(state);
+            }
+            finally { requests.Release(); }
         }
-        tray.Update(available ? (int)Math.Floor(shortest!.Remaining) : null, tooltip);
+        catch (OperationCanceledException) when (lifetime.IsCancellationRequested) { }
+        catch (Exception exception) when (exception is System.IO.IOException or System.IO.InvalidDataException or System.Text.Json.JsonException or OperationCanceledException)
+        {
+            // Never leave an orphaned WinUI process resident after the monitor stops.
+            if (!exiting) await CloseWindowAsync();
+        }
     }
     [DllImport("user32.dll")] private static extern uint GetDpiForWindow(IntPtr hwnd);
     [DllImport("dwmapi.dll")] private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attribute, ref int value, int size);

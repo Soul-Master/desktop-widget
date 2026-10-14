@@ -8,6 +8,12 @@
   <ItemGroup><Compile Include="../DesktopWidget.UI/WindowMonitor.cs" Link="WindowMonitor.cs"/></ItemGroup>
   <ItemGroup><Compile Include="../DesktopWidget.UI/WindowClientSizing.cs" Link="WindowClientSizing.cs"/></ItemGroup>
   <ItemGroup>
+    <Compile Include="../DesktopWidget.Host/UsageMonitor.cs" Link="UsageMonitor.cs"/>
+    <Compile Include="../DesktopWidget.UI/MonitorProtocol.cs" Link="MonitorProtocol.cs"/>
+    <Compile Include="../DesktopWidget.UI/TrayIndicator.cs" Link="TrayIndicator.cs"/>
+    <Compile Include="../DesktopWidget.UI/TrayIconRenderer.cs" Link="TrayIconRenderer.cs"/>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="../DesktopWidget.UI/DemoUsageService.cs" Link="DemoUsageService.cs"/>
     <None Include="../DesktopWidget.UI/Demo/plus-session.json" Link="Demo/plus-session.json" CopyToOutputDirectory="PreserveNewest"/>
   </ItemGroup>

@@ -1,55 +1,40 @@
-﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
+using Microsoft.UI.Xaml;
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+namespace DesktopWidget.UI;
 
-namespace DesktopWidget.UI
+public partial class App : Application
 {
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
-    public partial class App : Application
+    private Window? window;
+
+    public App() => InitializeComponent();
+
+    protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
-        private Window? _window;
-
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
-        public App()
+        var arguments = Environment.GetCommandLineArgs();
+        var pipeIndex = Array.IndexOf(arguments, "--monitor-pipe");
+        if (pipeIndex >= 0 && pipeIndex + 1 < arguments.Length)
         {
-            InitializeComponent();
+            try
+            {
+                var pipeName = arguments[pipeIndex + 1];
+                var state = await MonitorProtocol.RequestAsync(pipeName, new(), System.Threading.CancellationToken.None);
+                window = new MainWindow(pipeName, state);
+                window.Activate();
+            }
+            catch (Exception exception) when (exception is IOException or InvalidDataException or System.Text.Json.JsonException or OperationCanceledException)
+            {
+                Exit();
+            }
+            return;
         }
-
-        /// <summary>
-        /// Invoked when the application is launched.
-        /// </summary>
-        /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
-        {
-            var arguments = Environment.GetCommandLineArgs();
-            var demoIndex = Array.IndexOf(arguments, "--demo");
-            var demo = demoIndex < 0 ? null : new DemoUsageService(
-                demoIndex + 1 < arguments.Length ? arguments[demoIndex + 1]
-                    : System.IO.Path.Combine(AppContext.BaseDirectory, "Demo", "plus-session.json"));
-            _window = new MainWindow(demo);
-            _window.Activate();
-        }
+        // Keep F5/direct UI launches useful; normal launches use DesktopWidget.exe (the host).
+        var start = new ProcessStartInfo(Path.Combine(AppContext.BaseDirectory, "DesktopWidget.exe"))
+        { UseShellExecute = false, WorkingDirectory = AppContext.BaseDirectory };
+        for (var index = 1; index < arguments.Length; index++) start.ArgumentList.Add(arguments[index]);
+        using var host = Process.Start(start);
+        Exit();
     }
 }
