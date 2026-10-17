@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Modbus.FusionSolar.Api.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "192.168.68.55 --port 502 --unit-id 1"
+    }
+  }
+}

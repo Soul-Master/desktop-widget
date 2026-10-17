@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <Description>SUN2000MA SPC106 Modbus TCP client, model data accessors and documented register definitions.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="README.md" Pack="true" PackagePath="/" />
+    <None Update="LICENSE.md" Pack="true" PackagePath="/" />
+    <None Update="THIRD-PARTY-NOTICES.md" Pack="true" PackagePath="/" />
+    <None Update="REGISTER-SOURCES.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+</Project>

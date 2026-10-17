@@ -1,0 +1,6216 @@
+{
+  "source": "SUN2000MA V200R024C00SPC106 Modbus Interface Definitions(V3.0), Issue 06 (2025-06-12)",
+  "sha256": "df3bc623f1dc8a33b14387e66d797b5764d397de4a8efea9d4db0b92ec4d5310",
+  "registers": [
+    {
+      "name": "Model",
+      "address": 30000,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "SerialNumber",
+      "address": 30015,
+      "type": "String",
+      "words": 10,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "ProductCode",
+      "address": 30025,
+      "type": "String",
+      "words": 10,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "FirmwareVersion",
+      "address": 30035,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "SoftwareVersion",
+      "address": 30050,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "ProtocolVersionModbus",
+      "address": 30068,
+      "type": "UInt32",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "ModelIdentifier",
+      "address": 30070,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "NumberOfPvStrings",
+      "address": 30071,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "NumberOfMPPTs",
+      "address": 30072,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "RatedPower",
+      "address": 30073,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "MaximumActivePowerPmax",
+      "address": 30075,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "MaximumApparentPowerSmax",
+      "address": 30077,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kVA",
+      "access": "RO"
+    },
+    {
+      "name": "RealTimeMaximumReactivePowerQmaxFedToThePowerGrid",
+      "address": 30079,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kvar",
+      "access": "RO"
+    },
+    {
+      "name": "RealTimeMaximumReactivePowerNegativeQmaxAbsorbedFromThePowerGrid",
+      "address": 30081,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kvar",
+      "access": "RO"
+    },
+    {
+      "name": "MaximumActivePowerPmaxReal",
+      "address": 30083,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "MaximumApparentPowerSmaxReal",
+      "address": 30085,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kVA",
+      "access": "RO"
+    },
+    {
+      "name": "OfferingName",
+      "address": 30089,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "ProductSalesArea",
+      "address": 30105,
+      "type": "String",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "ProductSoftwareIdentifier",
+      "address": 30107,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "ProductSoftwareVersion",
+      "address": 30108,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeProtocolVersion",
+      "address": 30109,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "UniqueSoftwareIdentifier",
+      "address": 30110,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "QuantityOfSubpackagesInTheUpgradePackage",
+      "address": 30111,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Subpackage1Information",
+      "address": 30112,
+      "type": "UInt32",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Subpackage2Information",
+      "address": 30114,
+      "type": "UInt32",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Subpackage3Information",
+      "address": 30116,
+      "type": "UInt32",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Subpackage4Information",
+      "address": 30118,
+      "type": "UInt32",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Subpackage5Information",
+      "address": 30120,
+      "type": "UInt32",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Subpackage6Information",
+      "address": 30122,
+      "type": "UInt32",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Subpackage7Information",
+      "address": 30124,
+      "type": "UInt32",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Subpackage8Information",
+      "address": 30126,
+      "type": "UInt32",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Subpackage9Information",
+      "address": 30128,
+      "type": "UInt32",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Subpackage10Information",
+      "address": 30130,
+      "type": "UInt32",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "SoftwarePackageName",
+      "address": 30136,
+      "type": "String",
+      "words": 30,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "HardwareFunctionalUnitConfigurationIdentifier",
+      "address": 30206,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "SubdeviceSupportFlag",
+      "address": 30207,
+      "type": "Bitfield32",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "SubdevicePresenceFlag",
+      "address": 30209,
+      "type": "Bitfield32",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "FeatureCode1",
+      "address": 30211,
+      "type": "Enum16",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "FeatureCode2",
+      "address": 30213,
+      "type": "Enum16",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "FeatureCode3",
+      "address": 30215,
+      "type": "Enum16",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "FeatureCode4",
+      "address": 30217,
+      "type": "Enum16",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask1",
+      "address": 30219,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask2",
+      "address": 30220,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask3",
+      "address": 30221,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask4",
+      "address": 30222,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask5",
+      "address": 30223,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask6",
+      "address": 30224,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask7",
+      "address": 30225,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask8",
+      "address": 30226,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask9",
+      "address": 30227,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask10",
+      "address": 30228,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask11",
+      "address": 30229,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask12",
+      "address": 30230,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask13",
+      "address": 30231,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask14",
+      "address": 30232,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask15",
+      "address": 30233,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask16",
+      "address": 30234,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask17",
+      "address": 30235,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask18",
+      "address": 30236,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask19",
+      "address": 30237,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask20",
+      "address": 30238,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask21",
+      "address": 30239,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask22",
+      "address": 30240,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask23",
+      "address": 30241,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask24",
+      "address": 30242,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask25",
+      "address": 30243,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask26",
+      "address": 30244,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask27",
+      "address": 30245,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask28",
+      "address": 30246,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask29",
+      "address": 30247,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask30",
+      "address": 30248,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask31",
+      "address": 30249,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridCodeMask32",
+      "address": 30250,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "FeatureCode5",
+      "address": 30282,
+      "type": "Enum16",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask1Monitoring",
+      "address": 30300,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask2Monitoring",
+      "address": 30301,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask3Monitoring",
+      "address": 30302,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask4Monitoring",
+      "address": 30303,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask5Monitoring",
+      "address": 30304,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask6Monitoring",
+      "address": 30305,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask7Monitoring",
+      "address": 30306,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask8Monitoring",
+      "address": 30307,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask1Dsp",
+      "address": 30308,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask2Dsp",
+      "address": 30309,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask3Dsp",
+      "address": 30310,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask4Dsp",
+      "address": 30311,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask5Dsp",
+      "address": 30312,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask6Dsp",
+      "address": 30313,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask7Dsp",
+      "address": 30314,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask8Dsp",
+      "address": 30315,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask9Dsp",
+      "address": 30316,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask10Dsp",
+      "address": 30317,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask11Dsp",
+      "address": 30318,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask12Dsp",
+      "address": 30319,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask13Dsp",
+      "address": 30320,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask14Dsp",
+      "address": 30321,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask15Dsp",
+      "address": 30322,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask16Dsp",
+      "address": 30323,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask9Monitoring",
+      "address": 30340,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Level1ParameterMask10Monitoring",
+      "address": 30341,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "BatteryParameterMask1Monitoring",
+      "address": 30348,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "PidParameterMask1",
+      "address": 30350,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "LastLoginTimeAppAdministratorPresetInstaller",
+      "address": 30352,
+      "type": "EpochSeconds",
+      "words": 2,
+      "gain": 1,
+      "unit": "s",
+      "access": "RO"
+    },
+    {
+      "name": "LastLoginTimeAppCommonUserPresetUser",
+      "address": 30354,
+      "type": "EpochSeconds",
+      "words": 2,
+      "gain": 1,
+      "unit": "s",
+      "access": "RO"
+    },
+    {
+      "name": "InverterHardwareVersion",
+      "address": 31000,
+      "type": "String",
+      "words": 15,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "MonitoringBoardSerialNumber",
+      "address": 31015,
+      "type": "String",
+      "words": 10,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "MonitoringSoftwareVersion",
+      "address": 31025,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "MasterDspVersion",
+      "address": 31040,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "SlaveDspVersion",
+      "address": 31055,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "CpldVersion",
+      "address": 31070,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "AfciVersion",
+      "address": 31085,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "BuiltInPid",
+      "address": 31100,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "AfciM4SoftwareVersion",
+      "address": 31145,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "RegistrationCode",
+      "address": 31200,
+      "type": "Enum16",
+      "words": 10,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Teleindication.SignalNodeRemoteCommunication",
+      "address": 32000,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Teleindication.RunningStatusMonitorProcessing",
+      "address": 32002,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Teleindication.RunningStatusPowerProcessing",
+      "address": 32003,
+      "type": "Bitfield32",
+      "words": 2,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Teleindication.Alarm1",
+      "address": 32008,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Teleindication.Alarm2",
+      "address": 32009,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Teleindication.Alarm3",
+      "address": 32010,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Teleindication.Alarm4",
+      "address": 32011,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "DeviceSerialNumberFeatureCode",
+      "address": 32015,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Pv1Voltage",
+      "address": 32016,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "Pv1Current",
+      "address": 32017,
+      "type": "Int16",
+      "words": 1,
+      "gain": 100,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "Pv2Voltage",
+      "address": 32018,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "Pv2Current",
+      "address": 32019,
+      "type": "Int16",
+      "words": 1,
+      "gain": 100,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "Pv3Voltage",
+      "address": 32020,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "Pv3Current",
+      "address": 32021,
+      "type": "Int16",
+      "words": 1,
+      "gain": 100,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "Pv4Voltage",
+      "address": 32022,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "Pv4Current",
+      "address": 32023,
+      "type": "Int16",
+      "words": 1,
+      "gain": 100,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "Pv5Voltage",
+      "address": 32024,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "Pv5Current",
+      "address": 32025,
+      "type": "Int16",
+      "words": 1,
+      "gain": 100,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "Pv6Voltage",
+      "address": 32026,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "Pv6Current",
+      "address": 32027,
+      "type": "Int16",
+      "words": 1,
+      "gain": 100,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "TotalInputPower",
+      "address": 32064,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "ABLineVoltageOfGrid",
+      "address": 32066,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "BCLineVoltageOfGrid",
+      "address": 32067,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "CALineVoltageOfGrid",
+      "address": 32068,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "PhaseAVoltageOfGrid",
+      "address": 32069,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "PhaseBVoltageOfGrid",
+      "address": 32070,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "PhaseCVoltageOfGrid",
+      "address": 32071,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "PhaseACurrentOfGrid",
+      "address": 32072,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "PhaseBCurrentOfGrid",
+      "address": 32074,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "PhaseCCurrentOfGrid",
+      "address": 32076,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "TodaySPeakActivePower",
+      "address": 32078,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "ActivePower",
+      "address": 32080,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "ReactivePower",
+      "address": 32082,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kvar",
+      "access": "RO"
+    },
+    {
+      "name": "PowerFactor",
+      "address": 32084,
+      "type": "Int16",
+      "words": 1,
+      "gain": 1000,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "GridFrequency",
+      "address": 32085,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RO"
+    },
+    {
+      "name": "InverterEfficiency",
+      "address": 32086,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "%",
+      "access": "RO"
+    },
+    {
+      "name": "InternalTemperature",
+      "address": 32087,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "InsulationResistance",
+      "address": 32088,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1000,
+      "unit": "MΩ",
+      "access": "RO"
+    },
+    {
+      "name": "DeviceStatus",
+      "address": 32089,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "ErrorCode",
+      "address": 32090,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "StartupTime",
+      "address": 32091,
+      "type": "EpochSeconds",
+      "words": 2,
+      "gain": 1,
+      "unit": "s",
+      "access": "RO"
+    },
+    {
+      "name": "ShutdownTime",
+      "address": 32093,
+      "type": "EpochSeconds",
+      "words": 2,
+      "gain": 1,
+      "unit": "s",
+      "access": "RO"
+    },
+    {
+      "name": "TotalYield",
+      "address": 32106,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "TotalDcInputEnergy",
+      "address": 32108,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "StatisticalTimeOfCurrentEnergyYield",
+      "address": 32110,
+      "type": "EpochSeconds",
+      "words": 2,
+      "gain": 1,
+      "unit": "s",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyYieldInCurrentHour",
+      "address": 32112,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "YieldToday",
+      "address": 32114,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "YieldThisMonth",
+      "address": 32116,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "YieldThisYear",
+      "address": 32118,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "InverterPhaseAActivePower",
+      "address": 32133,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "InverterPhaseBActivePower",
+      "address": 32135,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "InverterPhaseCActivePower",
+      "address": 32137,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "AlarmClearanceSerialNumber",
+      "address": 32155,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "StatisticalTimeOfEnergyInThePreviousHour",
+      "address": 32156,
+      "type": "EpochSeconds",
+      "words": 2,
+      "gain": 1,
+      "unit": "s",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyGeneratedInThePreviousHour",
+      "address": 32158,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "StatisticalTimeOfEnergyInThePreviousDay",
+      "address": 32160,
+      "type": "EpochSeconds",
+      "words": 2,
+      "gain": 1,
+      "unit": "s",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyYieldInThePreviousDay",
+      "address": 32162,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "StatisticalTimeOfEnergyInThePreviousMonth",
+      "address": 32164,
+      "type": "EpochSeconds",
+      "words": 2,
+      "gain": 1,
+      "unit": "s",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyYieldInThePreviousMonth",
+      "address": 32166,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "StatisticalTimeOfEnergyInThePreviousYear",
+      "address": 32168,
+      "type": "EpochSeconds",
+      "words": 2,
+      "gain": 1,
+      "unit": "s",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyYieldInThePreviousYear",
+      "address": 32170,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "SerialNumberOfTheLatestActiveAlarm",
+      "address": 32172,
+      "type": "UInt32",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "SerialNumberOfTheLatestHistoricalAlarm",
+      "address": 32174,
+      "type": "UInt32",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "TotalBusVoltage",
+      "address": 32176,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "HighestPvVoltage",
+      "address": 32177,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "LowestPvVoltage",
+      "address": 32178,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "AverageVoltageBetweenPvMinusAndGround",
+      "address": 32179,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "HighestVoltageBetweenPvPlusAndGround",
+      "address": 32180,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "LowestVoltageBetweenPvMinusAndGround",
+      "address": 32181,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "InverterPeWithstandVoltage",
+      "address": 32182,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "IsoCharacteristicInformation",
+      "address": 32183,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "RunningStatusOfBuiltInPid",
+      "address": 32190,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "PvMinusVoltageToGround",
+      "address": 32191,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "Mppt1DcTotalYield",
+      "address": 32212,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "Mppt2DcTotalYield",
+      "address": 32214,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "Mppt3DcTotalYield",
+      "address": 32216,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "Mppt4DcTotalYield",
+      "address": 32218,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "MonitoringAlarm1",
+      "address": 32252,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "MonitoringAlarm2",
+      "address": 32253,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "MonitoringAlarm3",
+      "address": 32254,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "External.PowerAlarm1",
+      "address": 32255,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "External.PowerAlarm2",
+      "address": 32256,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "External.PowerAlarm3",
+      "address": 32257,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "External.PowerAlarm4",
+      "address": 32258,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "External.PowerAlarm5",
+      "address": 32259,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "External.PowerAlarm6",
+      "address": 32260,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "External.PowerAlarm7",
+      "address": 32261,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "External.PowerAlarm8",
+      "address": 32262,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "External.PowerAlarm9",
+      "address": 32263,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "External.PowerAlarm10",
+      "address": 32264,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "External.PowerAlarm11",
+      "address": 32265,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "External.PowerAlarm12",
+      "address": 32266,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "External.PowerAlarm13",
+      "address": 32267,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "BuiltInPidAlarm",
+      "address": 32268,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "External.PowerAlarm15",
+      "address": 32269,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "MonitoringAlarm4",
+      "address": 32271,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "MonitoringAlarm5",
+      "address": 32272,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "MonitoringAlarm6",
+      "address": 32274,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "Mppt1TotalInputPower",
+      "address": 32324,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "Mppt2TotalInputPower",
+      "address": 32326,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "Mppt3TotalInputPower",
+      "address": 32328,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "Mppt4TotalInputPower",
+      "address": 32330,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "Mppt5TotalInputPower",
+      "address": 32332,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "Mppt6TotalInputPower",
+      "address": 32334,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "Mppt7TotalInputPower",
+      "address": 32336,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "Mppt8TotalInputPower",
+      "address": 32338,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "Mppt9TotalInputPower",
+      "address": 32340,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "Pv25Voltage",
+      "address": 32344,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "Pv25Current",
+      "address": 32345,
+      "type": "Int16",
+      "words": 1,
+      "gain": 100,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "Pv26Voltage",
+      "address": 32346,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "Pv26Current",
+      "address": 32347,
+      "type": "Int16",
+      "words": 1,
+      "gain": 100,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "Pv27Voltage",
+      "address": 32348,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "Pv27Current",
+      "address": 32349,
+      "type": "Int16",
+      "words": 1,
+      "gain": 100,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "Pv28Voltage",
+      "address": 32350,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "Pv28Current",
+      "address": 32351,
+      "type": "Int16",
+      "words": 1,
+      "gain": 100,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "CapacitorGroupRuntime",
+      "address": 35000,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 10,
+      "unit": "hour",
+      "access": "RO"
+    },
+    {
+      "name": "InternalFan1Runtime",
+      "address": 35002,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 10,
+      "unit": "hour",
+      "access": "RO"
+    },
+    {
+      "name": "InternalFan2Runtime",
+      "address": 35004,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 10,
+      "unit": "hour",
+      "access": "RO"
+    },
+    {
+      "name": "InternalFan3Runtime",
+      "address": 35006,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 10,
+      "unit": "hour",
+      "access": "RO"
+    },
+    {
+      "name": "InternalFan4Runtime",
+      "address": 35008,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 10,
+      "unit": "hour",
+      "access": "RO"
+    },
+    {
+      "name": "InternalAlarm",
+      "address": 35010,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "InternalTemperature1",
+      "address": 35021,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "InternalTemperature2",
+      "address": 35022,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "InternalTemperature3",
+      "address": 35023,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "InternalTemperature4",
+      "address": 35024,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "InternalTemperature5",
+      "address": 35025,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "InternalTemperature6",
+      "address": 35026,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "InternalTemperature7",
+      "address": 35027,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "InternalTemperature8",
+      "address": 35028,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "InternalTemperature9",
+      "address": 35029,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "InternalTemperature10",
+      "address": 35030,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "InternalTemperature11",
+      "address": 35031,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "InternalTemperature12",
+      "address": 35032,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "PhaseADcComponentDci",
+      "address": 35038,
+      "type": "Int16",
+      "words": 1,
+      "gain": 1000,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "PhaseBDcComponentDci",
+      "address": 35039,
+      "type": "Int16",
+      "words": 1,
+      "gain": 1000,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "PhaseCDcComponentDci",
+      "address": 35040,
+      "type": "Int16",
+      "words": 1,
+      "gain": 1000,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "LeakageCurrentRcd",
+      "address": 35041,
+      "type": "Int16",
+      "words": 1,
+      "gain": 1,
+      "unit": "mA",
+      "access": "RO"
+    },
+    {
+      "name": "PositiveBusVoltage",
+      "address": 35042,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "NegativeBusVoltage",
+      "address": 35043,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "VoltageBetweenBusMinusAndGround",
+      "address": 35044,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "IVCurveScanningStatus",
+      "address": 35094,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "IVCurveScanningCapability",
+      "address": 35095,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "DelayedActivationStatus",
+      "address": 35115,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "ActivePowerAdjustmentStatus",
+      "address": 35300,
+      "type": "MultiData",
+      "words": 4,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "ReactivePowerAdjustmentStatus",
+      "address": 35304,
+      "type": "MultiData",
+      "words": 4,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "MeterStatus",
+      "address": 37100,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "MeterGridVoltageGridPhaseAVoltage",
+      "address": 37101,
+      "type": "Int32",
+      "words": 2,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "MeterPhaseBVoltageOfGrid",
+      "address": 37103,
+      "type": "Int32",
+      "words": 2,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "MeterPhaseCVoltageOfGrid",
+      "address": 37105,
+      "type": "Int32",
+      "words": 2,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "MeterGridCurrentGridPhaseACurrent",
+      "address": 37107,
+      "type": "Int32",
+      "words": 2,
+      "gain": 100,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "MeterPhaseBCurrentOfGrid",
+      "address": 37109,
+      "type": "Int32",
+      "words": 2,
+      "gain": 100,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "MeterPhaseCCurrentOfGrid",
+      "address": 37111,
+      "type": "Int32",
+      "words": 2,
+      "gain": 100,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "MeterActivePower",
+      "address": 37113,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RO"
+    },
+    {
+      "name": "MeterReactivePower",
+      "address": 37115,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1,
+      "unit": "var",
+      "access": "RO"
+    },
+    {
+      "name": "MeterPowerFactor",
+      "address": 37117,
+      "type": "Int16",
+      "words": 1,
+      "gain": 1000,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "MeterGridFrequency",
+      "address": 37118,
+      "type": "Int16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RO"
+    },
+    {
+      "name": "MeterPositiveActivePower",
+      "address": 37119,
+      "type": "Int32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "MeterReverseActivePower",
+      "address": 37121,
+      "type": "Int32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "MeterCumulativeReactiveEnergy",
+      "address": 37123,
+      "type": "Int32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kvarh",
+      "access": "RO"
+    },
+    {
+      "name": "MeterType",
+      "address": 37125,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "MeterABLineVoltage",
+      "address": 37126,
+      "type": "Int32",
+      "words": 2,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "MeterBCLineVoltage",
+      "address": 37128,
+      "type": "Int32",
+      "words": 2,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "MeterCALineVoltage",
+      "address": 37130,
+      "type": "Int32",
+      "words": 2,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "MeterPhaseAActivePower",
+      "address": 37132,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RO"
+    },
+    {
+      "name": "MeterPhaseBActivePower",
+      "address": 37134,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RO"
+    },
+    {
+      "name": "MeterPhaseCActivePower",
+      "address": 37136,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RO"
+    },
+    {
+      "name": "MeterTypeCheck",
+      "address": 37138,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "InverterOverallStatus",
+      "address": 37518,
+      "type": "Bitfield16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "InverterOverallStatusSupportFlag",
+      "address": 37519,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "SystemTimeLocalTime",
+      "address": 40000,
+      "type": "EpochSeconds",
+      "words": 2,
+      "gain": 1,
+      "unit": "s",
+      "access": "RW"
+    },
+    {
+      "name": "QUCharacteristicCurveMode",
+      "address": 40037,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "PowerPercentageForTriggeringQUScheduling",
+      "address": 40038,
+      "type": "Int16",
+      "words": 1,
+      "gain": 1,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "FixedActivePowerDeratingInKilowatts",
+      "address": 40120,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "kW",
+      "access": "RW"
+    },
+    {
+      "name": "PowerFactorSetting",
+      "address": 40122,
+      "type": "Int16",
+      "words": 1,
+      "gain": 1000,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "ReactivePowerCompensationQSLowPrecision",
+      "address": 40123,
+      "type": "Int16",
+      "words": 1,
+      "gain": 1000,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "ReactivePowerAdjustmentTime",
+      "address": 40124,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "s",
+      "access": "RW"
+    },
+    {
+      "name": "ActivePowerDeratingByPercentageLowPrecision",
+      "address": 40125,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "FixedActivePowerDeratingInWatts",
+      "address": 40126,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RW"
+    },
+    {
+      "name": "ReactivePowerCompensationAtNightQS",
+      "address": 40128,
+      "type": "Int16",
+      "words": 1,
+      "gain": 1000,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "FixedNighttimeReactivePower",
+      "address": 40129,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kvar",
+      "access": "RW"
+    },
+    {
+      "name": "CosPhiPPnCharacteristicCurve",
+      "address": 40133,
+      "type": "MultiData",
+      "words": 21,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "QUCharacteristicCurve",
+      "address": 40154,
+      "type": "MultiData",
+      "words": 21,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "PfUCharacteristicCurve",
+      "address": 40175,
+      "type": "MultiData",
+      "words": 21,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "CharacteristicCurve.ReactivePowerAdjustmentTime",
+      "address": 40196,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "s",
+      "access": "RW"
+    },
+    {
+      "name": "ApparentPowerInPercentage",
+      "address": 40197,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "PowerPercentageForExitingQUScheduling",
+      "address": 40198,
+      "type": "Int16",
+      "words": 1,
+      "gain": 1,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "ActivePowerPercentageControlLowPrecision",
+      "address": 40199,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "Startup",
+      "address": 40200,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "Shutdown",
+      "address": 40201,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "Reset",
+      "address": 40205,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "QPCharacteristicCurve",
+      "address": 40354,
+      "type": "MultiData",
+      "words": 21,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "MinimumPfOfQUCharacteristicCurve",
+      "address": 40375,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1000,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "DelayForQUCharacteristicCurveToTakeEffect",
+      "address": 40376,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "s",
+      "access": "RW"
+    },
+    {
+      "name": "GridCode",
+      "address": 42000,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "OutputMode",
+      "address": 42001,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "VoltageLevel",
+      "address": 42002,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "FrequencyLevel",
+      "address": 42003,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "RemotePowerScheduling",
+      "address": 42014,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "ReactivePowerChangeGradient",
+      "address": 42015,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "%/s",
+      "access": "RW"
+    },
+    {
+      "name": "ActivePowerChangeGradient",
+      "address": 42017,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "%/s",
+      "access": "RW"
+    },
+    {
+      "name": "ScheduleInstructionValidDuration",
+      "address": 42019,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "s",
+      "access": "RW"
+    },
+    {
+      "name": "MaximumApparentPower",
+      "address": 42021,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kVA",
+      "access": "RW"
+    },
+    {
+      "name": "MaximumActivePower",
+      "address": 42023,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RW"
+    },
+    {
+      "name": "ApparentPowerBaseline",
+      "address": 42025,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kvar",
+      "access": "RW"
+    },
+    {
+      "name": "ActivePowerBaseline",
+      "address": 42027,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RW"
+    },
+    {
+      "name": "PlantActivePowerGradient",
+      "address": 42029,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "min/100%",
+      "access": "RW"
+    },
+    {
+      "name": "AverageActivePowerFilteringTime",
+      "address": 42030,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "PfUVoltageDetectionFilterTime",
+      "address": 42032,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "s",
+      "access": "RW"
+    },
+    {
+      "name": "FrequencyDetectionFilterTime",
+      "address": 42037,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "RecoveryDelayOfFrequencyBasedActivePowerDerating",
+      "address": 42040,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "s",
+      "access": "RW"
+    },
+    {
+      "name": "ExecutionDelayOfFrequencyBasedActivePowerDerating",
+      "address": 42041,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "HysteresisOfFrequencyBasedActivePowerDerating",
+      "address": 42042,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "ResponseDeadbandOfFrequencyBasedControl",
+      "address": 42043,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1000,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "OnOffGridSwitchingMode",
+      "address": 42044,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "OffGridMode",
+      "address": 42045,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "PqMode",
+      "address": 42046,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "PvModuleType",
+      "address": 42047,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "PidCompensationDirection",
+      "address": 42048,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "StringConnectionMode",
+      "address": 42049,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "IsolationSettings",
+      "address": 42050,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "PowerChangeGradientOfFrequencyBasedControl",
+      "address": 42051,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "%/min",
+      "access": "RW"
+    },
+    {
+      "name": "PowerChangeLimitOfFrequencyBasedControl",
+      "address": 42052,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "DelayResponseTimeOfFrequencyBasedControl",
+      "address": 42053,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "MpptMultiPeakScanning",
+      "address": 42054,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "MpptScanningInterval",
+      "address": 42055,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "min",
+      "access": "RW"
+    },
+    {
+      "name": "PredictedMpptPower",
+      "address": 42056,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "AutoStartUponGridRecovery",
+      "address": 42061,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "ShutdownAt0PercentPowerLimit",
+      "address": 42062,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "ShutdownOnCommunicationFailure",
+      "address": 42063,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "StartupArrayUponCommunicationRecovery",
+      "address": 42064,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "PowerQualityOptimizationMode",
+      "address": 42065,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "RcdEnhancing",
+      "address": 42066,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "ReactivePowerOutputAtNight",
+      "address": 42067,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "PidProtectionAtNight",
+      "address": 42069,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "ApplyNighttimeReactivePowerParameters",
+      "address": 42070,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "CommunicationDisconnectionDetectionTime",
+      "address": 42072,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "s",
+      "access": "RW"
+    },
+    {
+      "name": "Afci",
+      "address": 42073,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "AfciDetectionMode",
+      "address": 42074,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "CommunicationDisconnectionFailSafe",
+      "address": 42075,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "ActivePowerModeWhenCommunicationFails",
+      "address": 42076,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "ActivePowerThresholdWhenCommunicationFailsKWLowPrecision",
+      "address": 42077,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 10,
+      "unit": "kW",
+      "access": "RW"
+    },
+    {
+      "name": "ReactivePowerModeWhenCommunicationFails",
+      "address": 42079,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "FrequencyChangeRateProtection",
+      "address": 42080,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "FrequencyChangeRateProtectionThreshold",
+      "address": 42081,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "Hz/s",
+      "access": "RW"
+    },
+    {
+      "name": "DurationThresholdForFrequencyChangeRateProtection",
+      "address": 42082,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "s",
+      "access": "RW"
+    },
+    {
+      "name": "ReactivePowerLimitWhenCommunicationFailsQSLowPrecision",
+      "address": 42083,
+      "type": "Int16",
+      "words": 1,
+      "gain": 1000,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "MaximumGridVoltageForGridConnection",
+      "address": 42084,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "MinimumGridVoltageForGridConnection",
+      "address": 42085,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "MaximumGridFrequencyForGridConnection",
+      "address": 42086,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "MinimumGridFrequencyForGridConnection",
+      "address": 42087,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "MaximumGridVoltageForGridReconnection",
+      "address": 42088,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "MinimumGridVoltageForGridReconnection",
+      "address": 42089,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "MaximumGridFrequencyForGridReconnection",
+      "address": 42090,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "MinimumGridFrequencyForGridReconnection",
+      "address": 42091,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "DelayForAutomaticGridReconnection",
+      "address": 42092,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "s",
+      "access": "RW"
+    },
+    {
+      "name": "PvModuleNameplateShortCircuitCurrentStcIsc",
+      "address": 42093,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "A",
+      "access": "RW"
+    },
+    {
+      "name": "InsulationResistanceProtectionThreshold",
+      "address": 42097,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1000,
+      "unit": "MΩ",
+      "access": "RW"
+    },
+    {
+      "name": "VoltageImbalanceProtectionThresholdPercent",
+      "address": 42098,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "PhaseProtectionThreshold",
+      "address": 42099,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°",
+      "access": "RW"
+    },
+    {
+      "name": "SoftStartTimeAfterGridFailure",
+      "address": 42100,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "s",
+      "access": "RW"
+    },
+    {
+      "name": "CosPhiPPnTriggerVoltage",
+      "address": 42101,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "CosPhiPPnExitVoltage",
+      "address": 42102,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "SoftStartTime",
+      "address": 42103,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "s",
+      "access": "RW"
+    },
+    {
+      "name": "GridConnectionDelayAfterGridRecovery",
+      "address": 42104,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "s",
+      "access": "RW"
+    },
+    {
+      "name": "DurationForDeterminingShortTimeGridDisconnection",
+      "address": 42105,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "ShutdownGradient",
+      "address": 42107,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "%/s",
+      "access": "RW"
+    },
+    {
+      "name": "LineLossCompensation",
+      "address": 42109,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "ZeroCurrentModeOnPowerGridFault",
+      "address": 42110,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "GridVoltageTripTriggeringThreshold",
+      "address": 42111,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "Hvrt",
+      "address": 42112,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "HvrtTriggeringThreshold",
+      "address": 42113,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "PositiveSequenceReactivePowerCompensationFactorInHvrt",
+      "address": 42114,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "QuickStartupForShortTimeGridDisconnection",
+      "address": 42116,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "LowVoltageRideThroughActiveCurrentMaintenanceCoefficient",
+      "address": 42118,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "LowVoltageRideThrough",
+      "address": 42119,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "LowVoltageRideThroughTriggeringThreshold",
+      "address": 42120,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "DeactivateGridVoltageProtectionDuringVrt",
+      "address": 42121,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "PositiveSequenceReactivePowerCompensationFactorInLowVoltageRideThrough",
+      "address": 42122,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "VrtExitHysteresisThreshold",
+      "address": 42123,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "VrtActiveCurrentLimitingInPercentage",
+      "address": 42124,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "VrtActivePowerRecoveryGradient",
+      "address": 42125,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "%/s",
+      "access": "RW"
+    },
+    {
+      "name": "NegativeSequenceReactivePowerCompensationFactorInHvrt",
+      "address": 42126,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "NegativeSequenceReactivePowerCompensationFactorInLowVoltageRideThrough",
+      "address": 42127,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "PhaseAngleOffsetProtection",
+      "address": 42128,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "ActiveIslandingProtection",
+      "address": 42129,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "PassiveIslandingProtection",
+      "address": 42130,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "OvgrLinkedShutdown",
+      "address": 42131,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "DryContactFunction",
+      "address": 42132,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "LowVoltageRideThroughReactiveCurrentLimitingInPercentage",
+      "address": 42133,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "ThresholdOfLowVoltageRideThroughZeroCurrentMode",
+      "address": 42134,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "LowVoltageRideThroughMode",
+      "address": 42135,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "VoltageRiseSuppression",
+      "address": 42138,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "ReactivePowerAdjustmentThresholdForVoltageRiseSuppression",
+      "address": 42139,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "ActivePowerDeratingThresholdForVoltageRiseSuppression",
+      "address": 42140,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "FrequencyBasedControl",
+      "address": 42141,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "AdjustmentRatioOfFrequencyBasedControl",
+      "address": 42142,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "OverfrequencyCausedPowerDerating",
+      "address": 42143,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "FrequencyThresholdForStoppingOverfrequencyCausedPowerDerating",
+      "address": 42144,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "PowerThresholdForStoppingOverfrequencyCausedPowerDerating",
+      "address": 42145,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "FrequencyThresholdForTriggeringOverfrequencyCausedPowerDerating",
+      "address": 42146,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "FrequencyThresholdForExitingOverfrequencyCausedPowerDerating",
+      "address": 42147,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "OverfrequencyCausedDeratingPowerRecoveryGradient",
+      "address": 42148,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "%/min",
+      "access": "RW"
+    },
+    {
+      "name": "UnderfrequencyCausedPowerRaising",
+      "address": 42151,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "GradientOfUnderfrequencyCausedPowerRaising",
+      "address": 42152,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "%/min",
+      "access": "RW"
+    },
+    {
+      "name": "LowVoltageRideThroughCharacteristicCurve",
+      "address": 42155,
+      "type": "MultiData",
+      "words": 21,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "FrequencyThresholdForStoppingUnderfrequencyCausedPowerRaising",
+      "address": 42176,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "PowerThresholdForStoppingUnderfrequencyCausedPowerRaising",
+      "address": 42177,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "FrequencyThresholdForTriggeringUnderfrequencyCausedPowerRaising",
+      "address": 42178,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "FrequencyThresholdForExitingUnderfrequencyCausedPowerRaising",
+      "address": 42179,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "BuiltInPidRunningMode",
+      "address": 42180,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "PidOutputVoltage",
+      "address": 42181,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "Pid",
+      "address": 42182,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "BroadcastActivePowerChangeGradient",
+      "address": 42192,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "%/s",
+      "access": "RW"
+    },
+    {
+      "name": "PUCurve",
+      "address": 42221,
+      "type": "MultiData",
+      "words": 21,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "PUCurveAdjustmentTime",
+      "address": 42242,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "s",
+      "access": "RW"
+    },
+    {
+      "name": "Value10MinuteOvervoltageProtectionThreshold",
+      "address": 42290,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "Value10MinuteOvervoltageProtectionDuration",
+      "address": 42291,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level1OvervoltageProtectionThreshold",
+      "address": 42293,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "Level1OvervoltageProtectionDuration",
+      "address": 42294,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level2OvervoltageProtectionThreshold",
+      "address": 42296,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "Level2OvervoltageProtectionDuration",
+      "address": 42297,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level3OvervoltageProtectionThreshold",
+      "address": 42299,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "Level3OvervoltageProtectionDuration",
+      "address": 42300,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level4OvervoltageProtectionThreshold",
+      "address": 42302,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "Level4OvervoltageProtectionDuration",
+      "address": 42303,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level5OvervoltageProtectionThreshold",
+      "address": 42305,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "Level5OvervoltageProtectionDuration",
+      "address": 42306,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level6OvervoltageProtectionThreshold",
+      "address": 42308,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "Level6OvervoltageProtectionDuration",
+      "address": 42309,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level1UndervoltageProtectionThreshold",
+      "address": 42311,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "Level1UndervoltageProtectionDuration",
+      "address": 42312,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level2UndervoltageProtectionThreshold",
+      "address": 42314,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "Level2UndervoltageProtectionDuration",
+      "address": 42315,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level3UndervoltageProtectionThreshold",
+      "address": 42317,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "Level3UndervoltageProtectionDuration",
+      "address": 42318,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level4UndervoltageProtectionThreshold",
+      "address": 42320,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "Level4UndervoltageProtectionDuration",
+      "address": 42321,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level5UndervoltageProtectionThreshold",
+      "address": 42323,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "Level5UndervoltageProtectionDuration",
+      "address": 42324,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level6UndervoltageProtectionThreshold",
+      "address": 42326,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "Level6UndervoltageProtectionDuration",
+      "address": 42327,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level1OverfrequencyProtectionThreshold",
+      "address": 42329,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "Level1OverfrequencyProtectionDuration",
+      "address": 42330,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level2OverfrequencyProtectionThreshold",
+      "address": 42332,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "Level2OverfrequencyProtectionDuration",
+      "address": 42333,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level3OverfrequencyProtectionThreshold",
+      "address": 42335,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "Level3OverfrequencyProtectionDuration",
+      "address": 42336,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level4OverfrequencyProtectionThreshold",
+      "address": 42338,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "Level4OverfrequencyProtectionDuration",
+      "address": 42339,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level5OverfrequencyProtectionThreshold",
+      "address": 42341,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "Level5OverfrequencyProtectionDuration",
+      "address": 42342,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level6OverfrequencyProtectionThreshold",
+      "address": 42344,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "Level6OverfrequencyProtectionDuration",
+      "address": 42345,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level1UnderfrequencyProtectionThreshold",
+      "address": 42347,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "Level1UnderfrequencyProtectionDuration",
+      "address": 42348,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level2UnderfrequencyProtectionThreshold",
+      "address": 42350,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "Level2UnderfrequencyProtectionDuration",
+      "address": 42351,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level3UnderfrequencyProtectionThreshold",
+      "address": 42353,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "Level3UnderfrequencyProtectionDuration",
+      "address": 42354,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level4UnderfrequencyProtectionThreshold",
+      "address": 42356,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "Level4UnderfrequencyProtectionDuration",
+      "address": 42357,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level5UnderfrequencyProtectionThreshold",
+      "address": 42359,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "Level5UnderfrequencyProtectionDuration",
+      "address": 42360,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "Level6UnderfrequencyProtectionThreshold",
+      "address": 42362,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": "Hz",
+      "access": "RW"
+    },
+    {
+      "name": "Level6UnderfrequencyProtectionDuration",
+      "address": 42363,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "ms",
+      "access": "RW"
+    },
+    {
+      "name": "DelayedUpgrade",
+      "address": 42590,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "HibernateAtNight",
+      "address": 42591,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "SmartStringMonitoring",
+      "address": 42594,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "StringDetectionReferenceAsymmetricCoefficient",
+      "address": 42595,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 100,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "StringDetectionStartupPowerPercentage",
+      "address": 42596,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "CommunicationInterruptionDuration",
+      "address": 42597,
+      "type": "Int16",
+      "words": 1,
+      "gain": 1,
+      "unit": "min",
+      "access": "RW"
+    },
+    {
+      "name": "Inspection",
+      "address": 42730,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "IVCurveScanning",
+      "address": 42779,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "SystemTime.Year",
+      "address": 43000,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "SystemTime.Month",
+      "address": 43001,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "SystemTime.Day",
+      "address": 43002,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "SystemTime.Hour",
+      "address": 43003,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "SystemTime.Minute",
+      "address": 43004,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "SystemTime.Second",
+      "address": 43005,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "Rs4851.ProtocolType",
+      "address": 43018,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "Rs4851.CommunicationsAddress",
+      "address": 43019,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "Rs4851.BaudRate",
+      "address": 43020,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "Rs4851.VerificationMode",
+      "address": 43021,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "Rs4851.PortMode",
+      "address": 43022,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "Rs4852.ProtocolType",
+      "address": 43033,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "Rs4852.CommunicationsAddress",
+      "address": 43034,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "Rs4852.BaudRate",
+      "address": 43035,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "Rs4852.VerificationMode",
+      "address": 43036,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "Rs4852.PortMode",
+      "address": 43037,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "DeviceName",
+      "address": 43349,
+      "type": "String",
+      "words": 10,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "App.FirstPowerOnFlag",
+      "address": 43359,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "RestoreFactorySettings",
+      "address": 45000,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "ClearActiveAlarms",
+      "address": 45001,
+      "type": "MultiData",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "ResetAlarms",
+      "address": 45003,
+      "type": "MultiData",
+      "words": 2,
+      "gain": null,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "ClearAlarms",
+      "address": 45005,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "MaskAlarms",
+      "address": 45006,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "StartAfciCheck",
+      "address": 45007,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "AdjustTotalEnergyYield",
+      "address": 45008,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "WO"
+    },
+    {
+      "name": "ClearHistoricalYield",
+      "address": 45010,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "ClearRuntimeInfo",
+      "address": 45011,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "SpotCheck",
+      "address": 45012,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "EsnApplicationCommand",
+      "address": 45015,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "InformationRestore",
+      "address": 45016,
+      "type": "MultiData",
+      "words": 10,
+      "gain": 1,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "ClearingUserData",
+      "address": 45223,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "PhaseAActivePowerPercentage",
+      "address": 45235,
+      "type": "Int16",
+      "words": 1,
+      "gain": 100,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "PhaseBActivePowerPercentage",
+      "address": 45236,
+      "type": "Int16",
+      "words": 1,
+      "gain": 100,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "PhaseCActivePowerPercentage",
+      "address": 45237,
+      "type": "Int16",
+      "words": 1,
+      "gain": 100,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "ThreePhaseImbalanceControl",
+      "address": 45238,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorageUnit1.RunningStatus",
+      "address": 37000,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.ChargeAndDischargePower",
+      "address": 37001,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BusVoltage",
+      "address": 37003,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryStateOfCapacity",
+      "address": 37004,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.WorkingMode",
+      "address": 37006,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.RatedChargePower",
+      "address": 37007,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.RatedDischargePower",
+      "address": 37009,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.FaultIdentifier",
+      "address": 37014,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.CurrentDayChargeCapacity",
+      "address": 37015,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.CurrentDayDischargeCapacity",
+      "address": 37017,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BusCurrent",
+      "address": 37021,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryTemperature",
+      "address": 37022,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.RemainingChargeDischargeTime",
+      "address": 37025,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "min",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.DcdcVersion",
+      "address": 37026,
+      "type": "String",
+      "words": 10,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BmsVersion",
+      "address": 37036,
+      "type": "String",
+      "words": 10,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorage.MaximumChargePower",
+      "address": 37046,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorage.MaximumDischargePower",
+      "address": 37048,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.SerialNumber",
+      "address": 37052,
+      "type": "String",
+      "words": 10,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.TotalCharge",
+      "address": 37066,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.TotalDischarge",
+      "address": 37068,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.SerialNumber",
+      "address": 37700,
+      "type": "Bytes",
+      "words": 10,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryStateOfCapacity",
+      "address": 37738,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.RunningStatus",
+      "address": 37741,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.ChargeAndDischargePower",
+      "address": 37743,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.CurrentDayChargeCapacity",
+      "address": 37746,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.CurrentDayDischargeCapacity",
+      "address": 37748,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BusVoltage",
+      "address": 37750,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BusCurrent",
+      "address": 37751,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryTemperature",
+      "address": 37752,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.TotalCharge",
+      "address": 37753,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.TotalDischarge",
+      "address": 37755,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorage.RatedCapacity",
+      "address": 37758,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "Wh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorage.StateOfCapacity",
+      "address": 37760,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorage.RunningStatus",
+      "address": 37762,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorage.BusVoltage",
+      "address": 37763,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorage.BusCurrent",
+      "address": 37764,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorage.ChargeDischargePower",
+      "address": 37765,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorage.TotalCharge",
+      "address": 37780,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorage.TotalDischarge",
+      "address": 37782,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorage.CurrentDayChargeCapacity",
+      "address": 37784,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorage.CurrentDayDischargeCapacity",
+      "address": 37786,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.SoftwareVersion",
+      "address": 37799,
+      "type": "String",
+      "words": 15,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.SoftwareVersion",
+      "address": 37814,
+      "type": "String",
+      "words": 15,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack1.SohCalibrationStatus",
+      "address": 37920,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack2.SohCalibrationStatus",
+      "address": 37921,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack3.SohCalibrationStatus",
+      "address": 37922,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack1.SohCalibrationStatus",
+      "address": 37923,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack2.SohCalibrationStatus",
+      "address": 37924,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack3.SohCalibrationStatus",
+      "address": 37925,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "SohCalibrationStatus",
+      "address": 37926,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "SohCalibrationReleaseTheLowerDischargeLimitOfTheStateOfCapacity",
+      "address": 37927,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "SohCalibrationEnableTheBackupPowerStateOfCapacity",
+      "address": 37928,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack1.SerialNumber",
+      "address": 38200,
+      "type": "String",
+      "words": 10,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack1.FirmwareVersion",
+      "address": 38210,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack1.WorkingStatus",
+      "address": 38228,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack1.StateOfCapacity",
+      "address": 38229,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack1.ChargeDischargePower",
+      "address": 38233,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack1.Voltage",
+      "address": 38235,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack1.Current",
+      "address": 38236,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack1.TotalCharge",
+      "address": 38238,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack1.TotalDischarge",
+      "address": 38240,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack2.SerialNumber",
+      "address": 38242,
+      "type": "String",
+      "words": 10,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack2.FirmwareVersion",
+      "address": 38252,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack2.WorkingStatus",
+      "address": 38270,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack2.StateOfCapacity",
+      "address": 38271,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack2.ChargeDischargePower",
+      "address": 38275,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack2.Voltage",
+      "address": 38277,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack2.Current",
+      "address": 38278,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack2.TotalCharge",
+      "address": 38280,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack2.TotalDischarge",
+      "address": 38282,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack3.SerialNumber",
+      "address": 38284,
+      "type": "String",
+      "words": 10,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack3.FirmwareVersion",
+      "address": 38294,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack3.WorkingStatus",
+      "address": 38312,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack3.StateOfCapacity",
+      "address": 38313,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack3.ChargeDischargePower",
+      "address": 38317,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack3.Voltage",
+      "address": 38319,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack3.Current",
+      "address": 38320,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack3.TotalCharge",
+      "address": 38322,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack3.TotalDischarge",
+      "address": 38324,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack1.SerialNumber",
+      "address": 38326,
+      "type": "String",
+      "words": 10,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack1.FirmwareVersion",
+      "address": 38336,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack1.WorkingStatus",
+      "address": 38354,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack1.StateOfCapacity",
+      "address": 38355,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack1.ChargeDischargePower",
+      "address": 38359,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack1.Voltage",
+      "address": 38361,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack1.Current",
+      "address": 38362,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack1.TotalCharge",
+      "address": 38364,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack1.TotalDischarge",
+      "address": 38366,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack2.SerialNumber",
+      "address": 38368,
+      "type": "String",
+      "words": 10,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack2.FirmwareVersion",
+      "address": 38378,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack2.WorkingStatus",
+      "address": 38396,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack2.StateOfCapacity",
+      "address": 38397,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack2.ChargeDischargePower",
+      "address": 38401,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack2.Voltage",
+      "address": 38403,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack2.Current",
+      "address": 38404,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack2.TotalCharge",
+      "address": 38406,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack2.TotalDischarge",
+      "address": 38408,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack3.SerialNumber",
+      "address": 38410,
+      "type": "String",
+      "words": 10,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack3.FirmwareVersion",
+      "address": 38420,
+      "type": "String",
+      "words": 15,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack3.WorkingStatus",
+      "address": 38438,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack3.StateOfCapacity",
+      "address": 38439,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack3.ChargeDischargePower",
+      "address": 38443,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack3.Voltage",
+      "address": 38445,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "V",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack3.Current",
+      "address": 38446,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "A",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack3.TotalCharge",
+      "address": 38448,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack3.TotalDischarge",
+      "address": 38450,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 100,
+      "unit": "kWh",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack1.MaximumTemperature",
+      "address": 38452,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack1.MinimumTemperature",
+      "address": 38453,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack2.MaximumTemperature",
+      "address": 38454,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack2.MinimumTemperature",
+      "address": 38455,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack3.MaximumTemperature",
+      "address": 38456,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack3.MinimumTemperature",
+      "address": 38457,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack1.MaximumTemperature",
+      "address": 38458,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack1.MinimumTemperature",
+      "address": 38459,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack2.MaximumTemperature",
+      "address": 38460,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack2.MinimumTemperature",
+      "address": 38461,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack3.MaximumTemperature",
+      "address": 38462,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack3.MinimumTemperature",
+      "address": 38463,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "°C",
+      "access": "RO"
+    },
+    {
+      "name": "ParallelSystem.RechargeablePower",
+      "address": 38904,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "ParallelSystem.DischargeablePower",
+      "address": 38906,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RO"
+    },
+    {
+      "name": "ParallelSystem.HeatingPreRequestedPower",
+      "address": 38908,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "W",
+      "access": "RO"
+    },
+    {
+      "name": "ParallelSystem.DehumidificationRequestPower",
+      "address": 38909,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "W",
+      "access": "RO"
+    },
+    {
+      "name": "ParallelSystem.BatteryChargeDischargeRequest",
+      "address": 38910,
+      "type": "MultiDataOrBytes",
+      "words": 3,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "ParallelSystem.EnergyStoragePreheatingNeedsTime",
+      "address": 38913,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": "min",
+      "access": "RO"
+    },
+    {
+      "name": "ParallelSystem.BatteryHealthCheckEvent",
+      "address": 38914,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "ParallelSystem.BatteryHealthCheckStatus",
+      "address": 38915,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RO"
+    },
+    {
+      "name": "EnergyStorageUnit1.ProductMode",
+      "address": 47000,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.TimeOfUseElectricityPricePeriods",
+      "address": 47028,
+      "type": "MultiData",
+      "words": 41,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.MaximumChargingPower",
+      "address": 47075,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.MaximumDischargingPower",
+      "address": 47077,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.ChargingCutoffCapacity",
+      "address": 47081,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.DischargeCutoffCapacity",
+      "address": 47082,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.ForcedChargingAndDischargingPeriod",
+      "address": 47083,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "min",
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.ForcedChargingAndDischargingPower",
+      "address": 47084,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.WorkingModeSettings",
+      "address": 47086,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.ChargeFromGridFunction",
+      "address": 47087,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.GridChargeCutoffStateOfCapacity",
+      "address": 47088,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorageUnit2.ProductModel",
+      "address": 47089,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.ForcibleChargeDischarge",
+      "address": 47100,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.TargetStateOfCapacity",
+      "address": 47101,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.BackupPowerStateOfCapacity",
+      "address": 47102,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.ProductModel",
+      "address": 47106,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorageUnit1.No",
+      "address": 47107,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorageUnit2.No",
+      "address": 47108,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStoragePreheating",
+      "address": 47112,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "WO"
+    },
+    {
+      "name": "EnergyStorage.FixedChargingAndDischargingPeriods",
+      "address": 47200,
+      "type": "MultiData",
+      "words": 41,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.PowerOfChargeFromGrid",
+      "address": 47242,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.MaximumPowerOfChargeFromGrid",
+      "address": 47244,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.ForcibleChargeDischargeSettingMode",
+      "address": 47246,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.ForcibleChargePower",
+      "address": 47247,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.ForcibleDischargePower",
+      "address": 47249,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.TimeOfUseChargingAndDischargingPeriods",
+      "address": 47255,
+      "type": "Bytes",
+      "words": 43,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorage.ExcessPvEnergyUseInTimeOfUse",
+      "address": 47299,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "ThreePartySchedulingEnergyStorageChargeAndDischargePower",
+      "address": 47321,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1,
+      "unit": "W",
+      "access": "RW"
+    },
+    {
+      "name": "ActivePowerControlMode",
+      "address": 47415,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "MaximumFeedGridPowerKW",
+      "address": 47416,
+      "type": "Int32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RW"
+    },
+    {
+      "name": "MaximumFeedGridPowerPercent",
+      "address": 47418,
+      "type": "Int16",
+      "words": 1,
+      "gain": 10,
+      "unit": "%",
+      "access": "RW"
+    },
+    {
+      "name": "ChargingAndDischargingRemoteControlMode",
+      "address": 47589,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "Dongle.Plant.MaximumChargeFromGridPower",
+      "address": 47590,
+      "type": "UInt32",
+      "words": 2,
+      "gain": 1000,
+      "unit": "kW",
+      "access": "RW"
+    },
+    {
+      "name": "Backup.SwitchToOffGrid",
+      "address": 47604,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "Backup.VoltageInIndependentOperation",
+      "address": 47605,
+      "type": "UInt16",
+      "words": 1,
+      "gain": 1,
+      "unit": "V",
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack1.No",
+      "address": 47750,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack2.No",
+      "address": 47751,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorageUnit1.BatteryPack3.No",
+      "address": 47752,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack1.No",
+      "address": 47753,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack2.No",
+      "address": 47754,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "EnergyStorageUnit2.BatteryPack3.No",
+      "address": 47755,
+      "type": "UInt16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    },
+    {
+      "name": "ParallelSystem.ManualBatteryHealthCheck",
+      "address": 48219,
+      "type": "Enum16",
+      "words": 1,
+      "gain": null,
+      "unit": null,
+      "access": "RW"
+    }
+  ]
+}
