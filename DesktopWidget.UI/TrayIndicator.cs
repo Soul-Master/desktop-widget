@@ -9,10 +9,11 @@ namespace DesktopWidget.UI;
 internal sealed partial class TrayIndicator : IDisposable
 {
     private const uint CallbackMessage = 0x8001; // WM_APP + 1
+    private const uint PowerBroadcast = 0x218, ResumeAutomatic = 0x12;
     private const uint Select = 0x400, KeySelect = 0x401, ContextMenu = 0x7B;
     private const uint Add = 0, Modify = 1, Delete = 2, SetFocus = 3, SetVersion = 4;
     private const uint MessageFlag = 1, IconFlag = 2, TipFlag = 4, ShowTipFlag = 0x80;
-    private readonly Action toggle, refresh, exit;
+    private readonly Action toggle, refresh, exit, resume;
     private readonly WindowProcedure windowProcedure;
     private readonly string className = "DesktopWidget.TrayIndicator." + Guid.NewGuid().ToString("N");
     private readonly IntPtr instance = GetModuleHandle(null);
@@ -25,11 +26,12 @@ internal sealed partial class TrayIndicator : IDisposable
     private string tooltip = string.Empty;
 
     // Construct, update and dispose on the thread that owns the callback window.
-    public TrayIndicator(Action toggle, Action refresh, Action exit)
+    public TrayIndicator(Action toggle, Action refresh, Action exit, Action? resume = null)
     {
         this.toggle = toggle;
         this.refresh = refresh;
         this.exit = exit;
+        this.resume = resume ?? refresh;
         windowProcedure = ProcessMessage; // Keep the delegate alive until DestroyWindow completes.
         renderer = new TrayIconRenderer();
         var windowClass = new WindowClass
@@ -104,6 +106,14 @@ internal sealed partial class TrayIndicator : IDisposable
         // No managed exception may escape a reverse P/Invoke callback into user32.
         try
         {
+            // Windows sends ResumeAutomatic for both unattended and user-initiated wakes.
+            // ResumeSuspend can follow it; handling both would request duplicate refreshes.
+            if (!disposed && message == PowerBroadcast && wParam == (UIntPtr)ResumeAutomatic)
+            {
+                resume(); // Let the owner supply its current snapshot before republishing.
+                PublishIcon(); // Explorer can retain stale state even when our cache is unchanged.
+                return (IntPtr)1;
+            }
             if (!disposed && taskbarCreated != 0 && message == taskbarCreated)
             {
                 added = false;

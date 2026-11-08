@@ -70,6 +70,22 @@ internal static class TrayChecks
         Check(ShellNotifyIcon(2, ref data), "Test icon can be removed independently of other applications");
         SendMessage(window, RegisterWindowMessage("TaskbarCreated"), UIntPtr.Zero, IntPtr.Zero);
         Check(ShellNotifyIconGetRect(ref identity, out _) == 0, "TaskbarCreated restores the icon without restarting the widget");
+
+        // The shell can lose state across sleep without a TaskbarCreated broadcast.
+        Check(ShellNotifyIcon(2, ref data), "Test icon removed before simulated resume");
+        tray.Update(88, new string('x', 300));
+        Check(ShellNotifyIconGetRect(ref identity, out _) != 0,
+            "Unchanged cached usage does not normally republish the tray icon");
+        var resumed = SendMessage(window, 0x218, (UIntPtr)0x12, IntPtr.Zero);
+        Check(resumed == (IntPtr)1 && refreshes == 2 && ShellNotifyIconGetRect(ref identity, out _) == 0,
+            "Automatic resume requests fresh usage and restores an unchanged cached icon");
+        SendMessage(window, 0x218, (UIntPtr)0x7, IntPtr.Zero); // PBT_APMRESUMESUSPEND follows automatic resume.
+        SendMessage(window, 0x218, (UIntPtr)0xA, IntPtr.Zero); // PBT_APMPOWERSTATUSCHANGE is not a resume.
+        Check(refreshes == 2, "Follow-up resume and power-status messages do not duplicate the refresh");
+        SendMessage(window, 0x218, (UIntPtr)0x12, IntPtr.Zero);
+        Check(refreshes == 3 && toggles == 4 && exits == 1,
+            "Later sleep cycles recover without toggling or exiting the widget");
+
         tray.Update(null, "Unavailable\nAwaiting refreshed limit");
         tray.Dispose();
         tray.Dispose();

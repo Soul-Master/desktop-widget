@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<AssemblyName>DesktopWidget.Window</AssemblyName>
-		<Version>0.3.0</Version>
+		<Version>0.3.1</Version>
 		<TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
 		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 		<RootNamespace>DesktopWidget.UI</RootNamespace>
@@ -23,10 +23,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- The host is an independent executable. Copy its resolved outputs ourselves. -->
-		<ProjectReference Include="../DesktopWidget.Host/DesktopWidget.Host.csproj"
-			ReferenceOutputAssembly="false" Private="false" OutputItemType="MonitorHostAssembly"
-			SetConfiguration="Configuration=$(Configuration)" SetPlatform="Platform=$(Platform)"
-			GlobalPropertiesToRemove="PublishProfile" />
+		<ProjectReference Include="../DesktopWidget.Host/DesktopWidget.Host.csproj" ReferenceOutputAssembly="false" Private="false" OutputItemType="MonitorHostAssembly" SetConfiguration="Configuration=$(Configuration)" SetPlatform="Platform=$(Platform)" GlobalPropertiesToRemove="PublishProfile" />
 		<Compile Remove="TrayIndicator.cs;TrayIconRenderer.cs" />
 	</ItemGroup>
 	<!-- The UI build remains the distribution entry point, packaging the independent native host. -->
@@ -43,9 +40,7 @@
 		<Copy SourceFiles="@(MonitorHostFiles)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
 	</Target>
 	<Target Name="PublishMonitorHost" AfterTargets="Publish">
-		<MSBuild Projects="../DesktopWidget.Host/DesktopWidget.Host.csproj" Targets="Publish"
-			Properties="Configuration=$(Configuration);Platform=$(Platform);RuntimeIdentifier=$(RuntimeIdentifier);PublishAot=$(PublishAot);PublishTrimmed=$(PublishTrimmed);SelfContained=$(SelfContained);PublishDir=$([System.IO.Path]::GetFullPath('$(PublishDir)'))"
-			RemoveProperties="PublishProfile;UseWinUI;WindowsPackageType" />
+		<MSBuild Projects="../DesktopWidget.Host/DesktopWidget.Host.csproj" Targets="Publish" Properties="Configuration=$(Configuration);Platform=$(Platform);RuntimeIdentifier=$(RuntimeIdentifier);PublishAot=$(PublishAot);PublishTrimmed=$(PublishTrimmed);SelfContained=$(SelfContained);PublishDir=$([System.IO.Path]::GetFullPath('$(PublishDir)'))" RemoveProperties="PublishProfile;UseWinUI;WindowsPackageType" />
 	</Target>
 	<ItemGroup>
 		<Content Include="Demo\*.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
@@ -75,8 +70,8 @@
 		<ProjectCapability Include="Msix" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2705" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="2.5.1" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2957" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="2.6.5" />
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
 		<!-- Use WinUI's WinRT projection instead of the WinForms/WPF adapters. -->

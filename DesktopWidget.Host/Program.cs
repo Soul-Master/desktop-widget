@@ -71,7 +71,7 @@ internal sealed class TrayHost : IDisposable
         // Force the thread message queue to exist before the pipe can post commands.
         PeekMessage(out _, IntPtr.Zero, 0, 0, 0);
         monitor = new UsageMonitor(demoPath is null ? null : new DemoUsageService(demoPath));
-        tray = new TrayIndicator(Toggle, () => _ = monitor.Refresh(), Exit);
+        tray = new TrayIndicator(Toggle, () => _ = monitor.Refresh(), Exit, Resume);
         server = ServeAsync();
     }
 
@@ -105,6 +105,13 @@ internal sealed class TrayHost : IDisposable
             if (result < 0) throw new Win32Exception(Marshal.GetLastWin32Error());
         }
         finally { KillTimer(IntPtr.Zero, timer); }
+    }
+
+    private void Resume()
+    {
+        // Demo playback should not advance because the machine woke up.
+        if (demoPath is null) _ = monitor.Refresh();
+        Tick();
     }
 
     private void Toggle()
